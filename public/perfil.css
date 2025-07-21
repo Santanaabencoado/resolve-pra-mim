@@ -1,0 +1,228 @@
+.profile-main {
+    background-color: var(--light-gray-color);
+    padding: 60px 0;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 40px;
+}
+
+.profile-header {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
+
+#profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    margin-bottom: 20px;
+}
+
+#profile-name {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+#profile-service-type {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.profile-details, .profile-contact {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
+
+.profile-details h2, .profile-contact h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.profile-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-details li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-details li i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    width: 25px;
+    text-align: center;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.payment-methods .method {
+    background-color: #e2e8f0;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.btn-whatsapp {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color: #25D366;
+    color: var(--white-color);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1DA851;
+}
+
+.review-section {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    grid-column: 1 / -1; 
+}
+
+.review-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.review-section p {
+    color: var(--gray-color);
+    margin-bottom: 25px;
+}
+
+#reviewForm .form-group {
+    margin-bottom: 20px;
+}
+
+#reviewForm .submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+@media(min-width: 768px) {
+    #reviewForm .submit-btn {
+        width: auto;
+        padding: 12px 30px;
+    }
+}
+
+.rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.rating-stars input[type="radio"] {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 2.5rem; 
+    color: #ccc;      
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-stars label:hover,
+.rating-stars label:hover ~ label {
+    color: var(--secondary-color); 
+}
+
+.rating-stars input[type="radio"]:checked ~ label {
+    color: var(--secondary-color); 
+}
+
+.reviews-display-section {
+    background-color: transparent; 
+    padding: 0; 
+    grid-column: 1 / -1; 
+    margin-top: 40px;
+}
+
+.reviews-display-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.review-card {
+    background-color: var(--white-color);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-header .client-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.review-header .review-date {
+    font-size: 0.85rem;
+    color: var(--gray-color);
+}
+
+.review-stars {
+    color: var(--secondary-color); 
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.review-comment {
+    color: var(--gray-color);
+    line-height: 1.6;
+}
+
+@media(min-width: 992px) {
+    .profile-grid {
+        grid-template-columns: 300px 1fr; 
+        grid-template-areas: 
+            "header details"
+            "contact details";
+    }
+
+    .profile-header { grid-area: header; }
+    .profile-details { grid-area: details; }
+    .profile-contact { grid-area: contact; }
+}

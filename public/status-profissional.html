@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status do Cadastro - Resolve Pra Mim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css"> <link rel="stylesheet" href="dashboard-profissional.css"> </head>
+<body class="login-body">
+    <div class="login-container" style="max-width: 600px;">
+        <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
+        <h2>Status do seu Cadastro</h2>
+        
+        <div id="status-info">
+            <p>Carregando seu status atual...</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="step" id="step1">
+                <div class="step-icon">1</div>
+                <div class="step-label">Cadastro<br>Realizado</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-icon">2</div>
+                <div class="step-label">Aprovação e<br>Pagamento</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-icon">3</div>
+                <div class="step-label">Perfil<br>Ativo</div>
+            </div>
+        </div>
+        <a href="/professionals/logout" class="nav-link-logout" style="margin-top: 30px; display: inline-block;">Sair</a>
+    </div>
+
+    <script src="status-profissional.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login do Profissional - Resolve Pra Mim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css"> 
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
+        <h2>Área do Profissional</h2>
+        <p>Acesse seu painel para gerenciar seu perfil.</p>
+        
+        <div id="errorMessage" class="error-box" style="display: none;">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            E-mail ou senha inválidos.
+        </div>
+
+        <form id="loginProForm">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="submit-btn">Entrar</button>
+        </form>
+    </div>
+
+    <script src="login-profissional.js"></script>
+</body>
+</html>

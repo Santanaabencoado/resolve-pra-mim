@@ -1,0 +1,234 @@
+.admin-main {
+    padding: 60px 0;
+    background-color: var(--light-gray-color);
+    min-height: 80vh;
+}
+
+.admin-tag {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.admin-main h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.admin-main p {
+    font-size: 1.1rem;
+    color: var(--gray-color);
+    margin-bottom: 40px;
+}
+
+.pending-card {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pending-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pending-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.pending-details h4 {
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.pending-details p {
+    font-size: 1rem;
+    color: var(--gray-color);
+    margin: 5px 0 0;
+}
+
+.pending-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
+
+.btn-admin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-admin:hover {
+    transform: scale(1.05);
+}
+
+.btn-approve {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    color: white;
+}
+
+.admin-modal-content {
+    width: 90%;
+    max-width: 900px; 
+}
+
+#modal-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.modal-section {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.modal-section:last-child {
+    border-bottom: none;
+}
+
+
+.modal-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.modal-section p {
+    margin: 0 0 8px;
+    line-height: 1.5;
+}
+
+.modal-section p strong {
+    color: var(--dark-color);
+    min-width: 120px;
+    display: inline-block;
+}
+
+.document-gallery {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.document-gallery a {
+    display: block;
+}
+
+.document-gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    border-radius: var(--border-radius);
+    transition: transform 0.2s ease;
+}
+
+.document-gallery img:hover {
+    transform: scale(1.5);
+    z-index: 10;
+}
+
+.login-body {
+    background-color: var(--light-gray-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    background-color: var(--white-color);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.login-container .logo {
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.login-container h2 {
+    margin-bottom: 10px;
+}
+
+.login-container p {
+    margin-bottom: 30px;
+    color: var(--gray-color);
+}
+
+.login-container .form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.nav-link-logout {
+    text-decoration: none;
+    color: #dc3545;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 2px solid #dc3545;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+.nav-link-logout:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.error-box {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (min-width: 768px) {
+    #modal-body {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+
+@media(min-width: 768px) {
+    .pending-card {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .pending-actions {
+        border-top: none;
+        padding-top: 0;
+    }
+}

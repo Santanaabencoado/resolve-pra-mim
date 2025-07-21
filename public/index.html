@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolve Pra Mim - Profissionais de Confiança para seu Lar</title>
+    <meta name="description" content="Encontre eletricistas, bombeiros, montadores e outros profissionais verificados na sua cidade. Rápido, fácil e seguro.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">Resolve<span>PraMim</span></a>
+            <nav class="main-nav">
+                <a href="login-profissional.html" class="nav-link-secondary">Login</a>
+                <a href="cadastro-profissional.html" class="nav-link">Sou Profissional</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Problemas em casa? A gente resolve.</h1>
+                <p class="subtitle">Encontre os melhores profissionais da sua cidade, avaliados e prontos para te ajudar.</p>
+                
+                <form class="search-form" id="searchForm">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="serviceInput" placeholder="Qual serviço você precisa? (ex: eletricista)">
+                    </div>
+                    <button type="submit">Buscar</button>
+                </form>
+
+                <div class="quick-categories">
+                    <span>Buscas rápidas:</span>
+                    <a href="#">Bombeiro</a>
+                    <a href="#">Eletricista</a>
+                    <a href="#">Montador</a>
+                </div>
+            </div>
+        </section>
+        <section class="pain-points-section">
+            <div class="container">
+                <h2 class="section-title">Cansado de...</h2>
+                <div class="pain-points-grid">
+                    <div class="pain-point-item">
+                        <i class="fa-regular fa-clock"></i>
+                        <p>Esperar horas por um técnico que marca e não aparece?</p>
+                    </div>
+                    <div class="pain-point-item">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <p>Orçamentos que mudam de valor no meio do serviço?</p>
+                    </div>
+                    <div class="pain-point-item">
+                        <i class="fa-solid fa-ghost"></i>
+                        <p>Profissionais que somem e não dão garantia do trabalho?</p>
+                    </div>
+                    <div class="pain-point-item">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <p>Serviços mal feitos que criam ainda mais dor de cabeça?</p>
+                    </div>
+                </div>
+                <div class="final-cta">
+                    <p>Diga adeus a esses problemas. Com a Resolve Pra Mim, você encontra a solução.</p>
+                    <a href="#" onclick="document.getElementById('serviceInput').focus();" class="btn-cta-solution">Encontrar um Profissional Agora</a>
+                </div>
+            </div>
+        </section>
+        <section class="featured-categories">
+            <div class="container">
+                <h2 class="section-title">Nossos Serviços Mais Procurados</h2>
+                <div class="category-grid">
+                    <a href="#" class="category-card">
+                        <div class="icon-wrapper"><i class="fa-solid fa-faucet-drip"></i></div>
+                        <h3>Hidráulica</h3>
+                        <p>Vazamentos, instalações e reparos.</p>
+                    </a>
+                    <a href="#" class="category-card">
+                        <div class="icon-wrapper"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Elétrica</h3>
+                        <p>Chuveiros, tomadas, quadros de luz.</p>
+                    </a>
+                    <a href="#" class="category-card">
+                        <div class="icon-wrapper"><i class="fa-solid fa-paint-roller"></i></div>
+                        <h3>Pintura</h3>
+                        <p>Paredes, fachadas e pequenos reparos.</p>
+                    </a>
+                    <a href="#" class="category-card">
+                        <div class="icon-wrapper"><i class="fa-solid fa-couch"></i></div>
+                        <h3>Montagem</h3>
+                        <p>Móveis novos, desmontagem e reparos.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-section">
+            <div class="container">
+                <h2 class="section-title">Sua tranquilidade é nossa prioridade</h2>
+                <div class="trust-grid">
+                    <div class="trust-item">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h4>Profissionais Verificados</h4>
+                        <p>Analisamos documentos e referências de todos os cadastrados.</p>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fa-solid fa-star"></i>
+                        <h4>Avaliações Reais</h4>
+                        <p>Apenas clientes que contrataram o serviço podem deixar uma avaliação.</p>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fa-solid fa-headset"></i>
+                        <h4>Suporte ao Cliente</h4>
+                        <p>Nossa equipe está pronta para ajudar em qualquer etapa do processo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+          
+        <section id="profissionais" class="cta-pro">
+
+        <section id="profissionais" class="cta-pro">
+            <div class="container">
+                <h2>Você é um profissional de primeira?</h2>
+                <p>Junte-se à nossa plataforma, alcance mais clientes e aumente sua renda. O cadastro é simples e rápido.</p>
+                <a href="#" class="btn-secondary">Quero Ser um Parceiro</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Resolve Pra Mim. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Sobre Nós</a>
+                <a href="#">Termos de Serviço</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

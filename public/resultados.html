@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Busca - Resolve Pra Mim</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="resultados.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
+            <nav class="main-nav">
+                <a href="login-profissional.html" class="nav-link-secondary">Login</a>
+                <a href="cadastro-profissional.html" class="nav-link">Sou Profissional</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="results-main">
+        <div class="container">
+            <h1 id="results-title">Carregando resultados...</h1>
+
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label for="bairro-filter">Filtrar por Bairro:</label>
+                <select id="bairro-filter" name="bairro">
+                    <option value="">Todos os Bairros</option>
+                    <option value="Centro">Centro</option>
+                    <option value="Ilha dos Araújos">Ilha dos Araújos</option>
+                    <option value="Esplanada">Esplanada</option>
+                    <option value="Vila Bretas">Vila Bretas</option>
+                    <option value="Santa Rita">Santa Rita</option>
+                </select>
+            </div>
+            <button id="filter-btn" class="btn-filter">Filtrar</button>
+        </div>
+        <div id="results-container" class="professionals-grid">
+            ...
+        </div>
+
+            <div id="results-container" class="professionals-grid">
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Resolve Pra Mim. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="resultados.js"></script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+.main-form {
+    background-color: #f7fafc;
+    padding: 40px 0;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px; 
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    font-size: 1.8rem;
+    color: var(--dark-color);
+}
+
+.form-header p {
+    font-size: 1.1rem;
+    color: var(--gray-color);
+}
+
+#proRegistrationForm fieldset {
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 20px 15px;
+    margin-bottom: 30px;
+}
+
+#proRegistrationForm legend {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    padding: 0 10px;
+    margin-left: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--body-font);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.2);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.terms-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.terms-group label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 400;
+    line-height: 1.5; 
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 400;
+}
+
+.checkbox-group input, .terms-group input {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px; 
+    flex-shrink: 0; 
+}
+
+.terms-group a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-group a:hover {
+    text-decoration: underline;
+}
+
+.mei-suggestion {
+    background-color: #e6f6ff;
+    border: 1px solid #90cdf4;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 10px 0 20px;
+}
+
+.mei-suggestion h4 {
+    color: #2c5282;
+    margin-bottom: 10px;
+}
+
+.btn-mei {
+    display: inline-block;
+    background-color: #3182ce;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+}
+
+.btn-mei:hover {
+    background-color: #2b6cb0;
+}
+
+.form-footer {
+    text-align: center;
+}
+
+.submit-btn {
+    background-color: var(--success-color);
+    color: var(--white-color);
+    border: none;
+    padding: 15px 30px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+    border: 2px solid var(--success-color);
+    border-radius: var(--border-radius);
+    background-color: #f0fff4;
+}
+.success-message i {
+    font-size: 4rem;
+    color: var(--success-color);
+    margin-bottom: 20px;
+}
+.success-message h2 {
+    font-size: 1.8rem;
+    color: var(--dark-color);
+    margin-bottom: 15px;
+}
+.success-message p {
+    color: var(--gray-color);
+    margin-bottom: 30px;
+}
+.btn-back {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+input.invalid, select.invalid {
+    border-color: #e53e3e;
+}
+
+/* --- ESTILOS DO MODAL --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto; 
+    padding: 25px;
+    border-radius: var(--border-radius);
+    width: 90%; 
+    max-width: 700px; 
+    position: relative;
+    animation: slideDown 0.4s ease-out;
+    max-height: 80vh;
+    overflow-y: auto; 
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.modal-content h4 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+.modal-content ul {
+    padding-left: 20px;
+}
+.modal-content li {
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-trigger {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+
+
+@media(min-width: 768px) {
+    .main-form {
+        padding: 60px 0;
+    }
+
+    .form-container {
+        padding: 40px; 
+    }
+
+    .form-header h1 {
+        font-size: 2.5rem; 
+    }
+
+    #proRegistrationForm fieldset {
+        padding: 25px;
+    }
+
+    .form-group-row {
+        flex-direction: row;
+    }
+
+    .form-group-row .form-group {
+        flex: 1; 
+    }
+
+    .submit-btn {
+        width: auto; 
+    }
+
+    .success-message h2 {
+        font-size: 2.2rem;
+    }
+
+    .modal-content {
+         margin: 10% auto;
+    }
+}

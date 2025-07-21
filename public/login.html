@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Resolve Pra Mim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css"> </head>
+    <body class="login-body">
+    
+    <div class="login-container">
+    <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
+    <h2>Acesso ao Painel</h2>
+    <p>Por favor, insira a senha de administrador.</p>
+    
+    <div id="errorMessage" class="error-box" style="display: none;">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        Senha incorreta. Tente novamente.
+    </div>
+    <form action="/admin/login" method="POST">
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="submit-btn">Entrar</button>
+    </form>
+</div>
+<script src="login.js"></script>
+</body>
+</html>

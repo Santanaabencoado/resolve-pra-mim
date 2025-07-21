@@ -1,0 +1,418 @@
+:root {
+    --primary-color: #005A9C;   
+    --secondary-color: #FDB913;
+    --dark-color: #1A202C;      
+    --gray-color: #4A5568;      
+    --light-gray-color: #F7FAFC;
+    --white-color: #FFFFFF;
+    --success-color: #28a745;
+
+    --body-font: 'Inter', sans-serif;
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--body-font);
+    color: var(--dark-color);
+    background-color: var(--white-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: var(--dark-color);
+}
+
+/* --- CABEÇALHO --- */
+.header {
+    background-color: var(--white-color);
+    padding: 15px 0;
+    border-bottom: 1px solid #E2E8F0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-color);
+}
+
+.logo span {
+    color: var(--primary-color);
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+/* --- SEÇÃO HERO --- */
+.hero {
+    background-color: var(--light-gray-color);
+    text-align: center;
+    padding: 80px 0;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    max-width: 600px;
+    margin: 0 auto 15px;
+}
+
+.hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--gray-color);
+    margin-bottom: 30px;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--white-color);
+    border: 1px solid #CBD5E0;
+    border-radius: var(--border-radius);
+    padding: 0 15px;
+}
+
+.search-box i {
+    color: var(--gray-color);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 10px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: none;
+}
+
+.search-form button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #004475;
+}
+
+.quick-categories {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--gray-color);
+}
+
+.quick-categories a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 5px;
+    font-weight: 500;
+}
+
+.quick-categories a:hover {
+    text-decoration: underline;
+}
+
+/* --- SEÇÃO CATEGORIAS --- */
+.featured-categories {
+    padding: 80px 0;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+.category-card {
+    background-color: var(--white-color);
+    border: 1px solid #E2E8F0;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--dark-color);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--primary-color);
+}
+
+.category-card .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    background-color: var(--light-gray-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.category-card h3 {
+    margin-bottom: 10px;
+}
+
+.category-card p {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+/* --- SEÇÃO CONFIANÇA --- */
+.trust-section {
+    padding: 80px 0;
+    background-color: var(--light-gray-color);
+}
+
+.trust-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+}
+
+.trust-item i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.trust-item h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.trust-item p {
+    color: var(--gray-color);
+}
+
+/* --- SEÇÃO CTA PROFISSIONAIS --- */
+.cta-pro {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.cta-pro h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.cta-pro .btn-secondary {
+    display: inline-block;
+    background-color: var(--white-color);
+    color: var(--primary-color);
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.cta-pro .btn-secondary:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0;
+}
+
+
+/* --- RODAPÉ --- */
+.footer {
+    background-color: var(--dark-color);
+    color: #A0AEC0;
+    padding: 30px 0;
+}
+
+.footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #A0AEC0;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--white-color);
+}
+/* --- SEÇÃO DOR DO CLIENTE ("CANSADO DE...") --- */
+.pain-points-section {
+    padding: 80px 0;
+    background-color: var(--white-color);
+}
+
+.pain-points-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.pain-point-item {
+    display: flex;
+    align-items: flex-start; 
+    gap: 20px;
+    padding: 20px;
+    background-color: var(--light-gray-color);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.pain-point-item i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-top: 5px; 
+}
+
+.pain-point-item p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.final-cta {
+    text-align: center;
+}
+
+.final-cta p {
+    font-size: 1.3rem;
+    color: var(--gray-color);
+    max-width: 600px;
+    margin: 0 auto 25px;
+}
+
+.btn-cta-solution {
+    display: inline-block;
+    background-color: var(--success-color);
+    color: var(--white-color);
+    text-decoration: none;
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.btn-cta-solution:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+@media (min-width: 600px) {
+    .search-form {
+        flex-direction: row;
+    }
+
+    .search-box {
+        flex-grow: 1; 
+    }
+
+    .category-grid, .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .section-title, .hero h1, .hero .subtitle {
+        font-size: 2.8rem;
+    }
+    .hero .subtitle {font-size: 1.2rem;}
+
+    .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .trust-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .footer .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+/* Estilo para o link secundário no cabeçalho */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-link-secondary {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 8px 0; 
+    transition: color 0.3s ease;
+}
+
+.nav-link-secondary:hover {
+    color: var(--dark-color);
+}

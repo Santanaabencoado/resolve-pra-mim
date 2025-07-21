@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Profissional - Resolve Pra Mim</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cadastro.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
+            <nav class="main-nav">
+                <a href="login-profissional.html" class="nav-link-secondary">Login</a>
+                <a href="cadastro-profissional.html" class="nav-link">Sou Profissional</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-form">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Torne-se um Parceiro</h1>
+                    <p>Preencha o formulário abaixo para fazer parte da nossa rede de profissionais de confiança.</p>
+                </div>
+
+                <form id="proRegistrationForm" novalidate enctype="multipart/form-data">
+                    
+                    <fieldset>
+                        <legend>Informações Pessoais</legend>
+                        <div class="form-group">
+                            <label for="fullName">Nome Completo</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="cpf">CPF</label>
+                                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthDate">Data de Nascimento</label>
+                                <input type="date" id="birthDate" name="birthDate" required>
+                            </div>
+                        </div>
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefone com WhatsApp</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(00) 00000-0000" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cep">CEP</label>
+                            <input type="text" id="cep" name="cep" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bairro">Bairro Principal de Atuação</label>
+                            <input type="text" id="bairro" name="bairro" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Endereço Completo (Rua, Nº) - *Não será exibido publicamente*</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Informações Profissionais</legend>
+                        <div class="form-group">
+                            <label for="serviceType">Principal Serviço Prestado</label>
+                            <select id="serviceType" name="serviceType" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="eletricista">Eletricista</option>
+                                <option value="bombeiro">Bombeiro Hidráulico</option>
+                                <option value="montador">Montador de Móveis</option>
+                                <option value="pintor">Pintor</option>
+                                <option value="pedreiro">Pedreiro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cnpj">CNPJ (Opcional)</label>
+                            <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0001-00">
+                        </div>
+                        <div class="mei-suggestion">
+                            <h4>Ainda não tem CNPJ?</h4>
+                            <p>Ser um Microempreendedor Individual (MEI) traz benefícios e profissionaliza seu trabalho. É fácil e rápido!</p>
+                            <a href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor" target="_blank" class="btn-mei">Torne-se MEI com a gente <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Tempo de Experiência</label>
+                            <input type="number" id="experience" name="experience" min="0" required>
+                        </div>
+                         <div class="form-group">
+                            <label>Formas de Pagamento Aceitas</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="payment" value="pix"> Pix</label>
+                                <label><input type="checkbox" name="payment" value="dinheiro"> Dinheiro</label>
+                                <label><input type="checkbox" name="payment" value="cartao_credito"> Cartão de Crédito</label>
+                                <label><input type="checkbox" name="payment" value="cartao_debito"> Cartão de Débito</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Informações de Acesso</legend>
+                        <div class="form-group">
+                            <label for="password">Crie uma Senha</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirme sua Senha</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Documentação e Perfil</legend>
+                        <div class="form-group">
+                            <label for="profilePic">Foto de Perfil (para o anúncio)</label>
+                            <input type="file" id="profilePic" name="profilePic" accept="image/*" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="docPhoto">Foto do Documento (RG ou CNH, frente e verso)</label>
+                            <input type="file" id="docPhoto" name="docPhoto" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="selfie">Foto do seu rosto segurando o documento</label>
+                            <input type="file" id="selfie" name="selfie" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Fale sobre você e seu trabalho (diferenciais, experiências)</label>
+                            <textarea id="bio" name="bio" rows="5" placeholder="Ex: Sou eletricista há 10 anos, especialista em instalações residenciais. Prezo pela segurança e limpeza no meu trabalho..."></textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Termos e Pagamento</legend>
+                         <div class="terms-group">
+                            <label>
+                            <input type="checkbox" id="termsService" name="termsService" required>
+                            Li e aceito os <a href="javascript:void(0)" class="modal-trigger" data-modal-target="#termsModal">Termos de Prestação de Serviço</a>, incluindo as regras de conduta e responsabilidades.
+                            </label>
+                        </div>
+                        <div class="terms-group">
+                            <label>
+                                <input type="checkbox" id="termsData" name="termsData" required>
+                                Consinto com o uso dos meus dados para fins de cadastro, verificação e exibição no site, conforme a <a href="javascript:void(0)" class="modal-trigger" data-modal-target="#privacyModal">Política de Privacidade (LGPD)</a>.
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-footer">
+                        <button type="submit" class="submit-btn">Enviar Cadastro para Análise</button>
+                    </div>
+                </form>
+
+                 <div id="successMessage" class="success-message" style="display: none;">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h2>Cadastro Enviado com Sucesso!</h2>
+                    <p>Recebemos suas informações. Nossa equipe irá avaliar seu perfil em até 48 horas úteis.</p>
+                    <p>Um e-mail de confirmação foi enviado para você. Fique de olho na sua caixa de entrada e spam!</p>
+                    <a href="index.html" class="btn-back">Voltar para a Página Inicial</a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Resolve Pra Mim. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Termos de Prestação de Serviço</h2>
+            <p><strong>Última atualização: 08 de julho de 2025</strong></p>
+            <p>Bem-vindo à Resolve Pra Mim. Ao se cadastrar como profissional parceiro em nossa plataforma, você concorda com os seguintes termos:</p>
+            
+            <h4>1. Objeto</h4>
+            <p>A plataforma "Resolve Pra Mim" atua como uma intermediária para conectar profissionais prestadores de serviço (VOCÊ) a clientes finais. Não possuímos vínculo empregatício com os profissionais cadastrados.</p>
+
+            <h4>2. Taxa de Exibição</h4>
+            <p>Para ter seu perfil exibido em nosso catálogo, será cobrada uma taxa única de <strong>R$ 50,00 (cinquenta reais)</strong>. Este valor é referente à verificação de dados, manutenção da plataforma e visibilidade do seu perfil por um período <strong> permanente. </strong>A cobrança será realizada somente após a aprovação do seu cadastro.</p>
+            
+            <h4>3. Responsabilidades do Profissional</h4>
+            <ul>
+                <li>Fornecer informações verdadeiras e atualizadas em seu cadastro.</li>
+                <li>Realizar os serviços contratados com diligência, qualidade e profissionalismo.</li>
+                <li>Respeitar os clientes e as regras de conduta da plataforma.</li>
+                <li>A responsabilidade pela execução do serviço, garantia e emissão de notas fiscais é integralmente do profissional.</li>
+            </ul>
+
+            <h4>4. Suspensão e Cancelamento</h4>
+            <p>A plataforma se reserva o direito de suspender ou cancelar perfis que recebam múltiplas avaliações negativas comprovadas ou que infrinjam nossos termos de serviço, sem devolução da taxa paga.</p>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Política de Privacidade (LGPD)</h2>
+            <p><strong>Última atualização: 08 de julho de 2025</strong></p>
+            <p>A sua privacidade é importante para nós. Esta política explica como coletamos, usamos e protegemos seus dados, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+
+            <h4>1. Dados Coletados</h4>
+            <p>Coletamos as informações que você fornece no formulário de cadastro, com a finalidade de verificar sua identidade e criar seu perfil público na plataforma.</p>
+
+            <h4>2. Uso dos Dados</h4>
+            <p>Seus dados serão utilizados para:</p>
+            <ul>
+                <li>Verificação interna de segurança.</li>
+                <li>Criação do seu perfil, onde informações como seu nome, foto de perfil, descrição e formas de pagamento serão públicas.</li>
+                <li>Comunicação entre a plataforma e você sobre seu cadastro e pagamentos.</li>
+                <li>Seu CPF e endereço completo **não serão** exibidos publicamente.</li>
+            </ul>
+            
+            <h4>3. Compartilhamento</h4>
+            <p>Não compartilhamos seus dados pessoais com terceiros para fins de marketing sem seu consentimento explícito. O compartilhamento ocorre apenas conforme necessário para a operação da plataforma.</p>
+        </div>
+    </div>
+    <script src="cadastro.js"></script>
+</body>
+</html>
