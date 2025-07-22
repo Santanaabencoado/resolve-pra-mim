@@ -1,3 +1,5 @@
+// server.js - VERSÃO FINAL COM LOGOUT DE PROFISSIONAL
+
 // --- 1. IMPORTAÇÕES ---
 require('dotenv').config();
 const express = require('express');
@@ -9,6 +11,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const { MercadoPagoConfig, Preference, Payment, MerchantOrder } = require('mercadopago');
 const bcrypt = require('bcrypt');
+const { sendRegistrationEmail, sendPaymentLinkEmail } = require('./email-service');
 
 // --- 2. CONFIGURAÇÕES INICIAIS ---
 const app = express();
@@ -31,6 +34,7 @@ const createProfessionalsTableSql = `
         phone TEXT,
         cep TEXT,
         address TEXT,
+        bairro TEXT,
         serviceType TEXT,
         cnpj TEXT,
         experience INTEGER,
@@ -58,7 +62,18 @@ const createReviewsTableSql = `
     )
 `;
 db.exec(createReviewsTableSql);
-console.log('Tabelas "professionals" e "reviews" prontas para uso.');
+
+const createClientsTableSql = `
+    CREATE TABLE IF NOT EXISTS clients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+`;
+db.exec(createClientsTableSql);
+console.log('Tabelas "professionals", "reviews" e "clients" prontas para uso.');
 
 
 // --- 4. MIDDLEWARE ---
@@ -94,14 +109,22 @@ const checkProfessionalAuth = (req, res, next) => {
     }
 };
 
+const checkClientAuth = (req, res, next) => {
+    if (req.session.isClientLoggedIn && req.session.clientId) {
+        next();
+    } else {
+        res.status(401).json({ success: false, message: 'Acesso não autorizado. Por favor, faça o login.' });
+    }
+};
+
 // --- 5. ROTAS DA APLICAÇÃO ---
 
-// --- ROTAS PÚBLICAS E DE PROFISSIONAIS ---
+// --- ROTAS PÚBLICAS, DE PROFISSIONAIS E CLIENTES ---
 
 app.post('/api/register-professional', upload.fields([
     { name: 'profilePic', maxCount: 1 }, { name: 'docPhoto', maxCount: 1 }, { name: 'selfie', maxCount: 1 }
 ]), async (req, res) => { 
-    const { fullName, cpf, birthDate, email, phone, cep, address, serviceType, cnpj, experience, bio, password } = req.body;
+    const { fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, experience, bio, password } = req.body;
     if (!fullName || !cpf || !password) {
         return res.status(400).json({ success: false, message: 'Nome, CPF e Senha são obrigatórios.' });
     }
@@ -112,26 +135,37 @@ app.post('/api/register-professional', upload.fields([
         const profilePicPath = req.files.profilePic ? req.files.profilePic[0].path : null;
         const docPhotoPath = req.files.docPhoto ? req.files.docPhoto[0].path : null;
         const selfiePath = req.files.selfie ? req.files.selfie[0].path : null;
-        const insertSql = `
-            INSERT INTO professionals (
-                fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, 
-                experience, bio, paymentMethods, password, profilePic, docPhoto, selfie
-            ) VALUES (
-                @fullName, @cpf, @birthDate, @email, @phone, @cep, @bairro, @address, @serviceType, @cnpj, 
-                @experience, @bio, @paymentMethods, @password, @profilePic, @docPhoto, @selfie
-            )`;
+        const insertSql = `INSERT INTO professionals (fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, experience, bio, paymentMethods, password, profilePic, docPhoto, selfie) VALUES (@fullName, @cpf, @birthDate, @email, @phone, @cep, @bairro, @address, @serviceType, @cnpj, @experience, @bio, @paymentMethods, @password, @profilePic, @docPhoto, @selfie)`;
         const stmt = db.prepare(insertSql);
-        stmt.run({
-            fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, 
-            experience, bio, paymentMethods: paymentMethodsString, 
-            password: hashedPassword, 
-            profilePic: profilePicPath, docPhoto: docPhotoPath, selfie: selfiePath 
-        });
-        stmt.run({ fullName, cpf, birthDate, email, phone, cep, address, serviceType, cnpj, experience, bio, paymentMethods: paymentMethodsString, password: hashedPassword, profilePic: profilePicPath, docPhoto: docPhotoPath, selfie: selfiePath });
+        stmt.run({ fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, experience, bio, paymentMethods: paymentMethodsString, password: hashedPassword, profilePic: profilePicPath, docPhoto: docPhotoPath, selfie: selfiePath });
+        
+        sendRegistrationEmail(email, fullName);
         res.status(201).json({ success: true, message: 'Cadastro recebido com sucesso! Você será notificado após a aprovação.' });
     } catch (err) {
+        console.error('Erro ao salvar cadastro:', err.message);
         let userMessage = 'Erro interno ao salvar o cadastro.';
         if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') { userMessage = 'Este CPF ou e-mail já está cadastrado.'; }
+        res.status(500).json({ success: false, message: userMessage });
+    }
+});
+
+app.post('/api/clients/register', async (req, res) => {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios.' });
+    }
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const sql = `INSERT INTO clients (name, email, password) VALUES (@name, @email, @password)`;
+        const stmt = db.prepare(sql);
+        stmt.run({ name, email, password: hashedPassword });
+        res.status(201).json({ success: true, message: 'Conta criada com sucesso!' });
+    } catch (err) {
+        console.error('Erro ao cadastrar cliente:', err.message);
+        let userMessage = 'Erro ao criar a conta. Tente novamente.';
+        if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            userMessage = 'Este e-mail já está em uso.';
+        }
         res.status(500).json({ success: false, message: userMessage });
     }
 });
@@ -160,6 +194,31 @@ app.post('/api/professionals/login', async (req, res) => {
     }
 });
 
+app.post('/api/clients/login', async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ success: false, message: 'E-mail e senha são obrigatórios.' });
+    }
+    try {
+        const sql = "SELECT * FROM clients WHERE email = ?";
+        const clientUser = db.prepare(sql).get(email);
+        if (!clientUser) {
+            return res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
+        }
+        const passwordMatches = await bcrypt.compare(password, clientUser.password);
+        if (!passwordMatches) {
+            return res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
+        }
+        req.session.isClientLoggedIn = true;
+        req.session.clientId = clientUser.id;
+        req.session.clientName = clientUser.name;
+        res.status(200).json({ success: true, message: 'Login bem-sucedido.' });
+    } catch (err) {
+        console.error('Erro no login do cliente:', err.message);
+        res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
+    }
+});
+
 app.get('/api/professionals/me', checkProfessionalAuth, (req, res) => {
     try {
         const professionalId = req.session.professionalId;
@@ -176,40 +235,32 @@ app.get('/api/professionals/me', checkProfessionalAuth, (req, res) => {
     }
 });
 
-// ROTA PROTEGIDA: ATUALIZAR os dados do profissional logado
+app.get('/api/clients/me', checkClientAuth, (req, res) => {
+    try {
+        const clientId = req.session.clientId;
+        const clientName = req.session.clientName;
+        res.status(200).json({ success: true, data: { id: clientId, name: clientName } });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
+    }
+});
+
 app.put('/api/professionals/me', checkProfessionalAuth, (req, res) => {
     try {
         const professionalId = req.session.professionalId;
         const { fullName, phone, bio, paymentMethods } = req.body;
-
         if (!fullName || !phone) {
             return res.status(400).json({ success: false, message: 'Nome e Telefone são obrigatórios.' });
         }
-
         const paymentMethodsString = Array.isArray(paymentMethods) ? paymentMethods.join(',') : paymentMethods;
-
-        const sql = `
-            UPDATE professionals 
-            SET fullName = @fullName, phone = @phone, bio = @bio, paymentMethods = @paymentMethods
-            WHERE id = @id
-        `;
-        
+        const sql = `UPDATE professionals SET fullName = @fullName, phone = @phone, bio = @bio, paymentMethods = @paymentMethods WHERE id = @id`;
         const stmt = db.prepare(sql);
-        const info = stmt.run({
-            fullName,
-            phone,
-            bio,
-            paymentMethods: paymentMethodsString,
-            id: professionalId
-        });
-
+        const info = stmt.run({ fullName, phone, bio, paymentMethods: paymentMethodsString, id: professionalId });
         if (info.changes > 0) {
-            console.log(`Perfil do ID ${professionalId} atualizado com sucesso.`);
             res.status(200).json({ success: true, message: 'Perfil atualizado com sucesso!' });
         } else {
             res.status(404).json({ success: false, message: 'Nenhuma alteração foi feita ou profissional não encontrado.' });
         }
-
     } catch (err) {
         console.error('Erro ao atualizar perfil:', err.message);
         res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
@@ -236,12 +287,10 @@ app.get('/api/professionals', (req, res) => {
     if (!service) { return res.status(400).json({ success: false, message: 'O tipo de serviço é obrigatório.' }); }
     let sql = "SELECT id, fullName, profilePic, serviceType, bio, bairro FROM professionals WHERE status = 'active' AND lower(serviceType) = lower(?)";
     const params = [service];
-
     if (bairro && bairro !== '') {
         sql += " AND lower(bairro) = lower(?)";
         params.push(bairro);
     }
-
     try {
         const professionalsFound = db.prepare(sql).all(...params);
         const professionalsWithCorrectPath = professionalsFound.map(prof => ({
@@ -299,6 +348,24 @@ app.get('/admin/logout', (req, res) => {
     });
 });
 
+// A ROTA DE LOGOUT DO PROFISSIONAL QUE ESTAVA FALTANDO
+app.get('/professionals/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) return res.redirect('/dashboard-profissional.html');
+        res.clearCookie('connect.sid');
+        res.redirect('/');
+    });
+});
+
+// A ROTA DE LOGOUT DO CLIENTE QUE ESTAVA FALTANDO
+app.get('/clients/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) return res.redirect('/');
+        res.clearCookie('connect.sid');
+        res.redirect('/');
+    });
+});
+
 app.get('/api/admin/pending', checkAuth, (req, res) => {
     try {
         const sql = "SELECT * FROM professionals WHERE status = 'pending' ORDER BY createdAt DESC";
@@ -338,7 +405,11 @@ app.post('/api/admin/approve/:id', checkAuth, async (req, res) => {
         const preference = new Preference(client);
         const response = await preference.create({ body: preferenceBody });
         db.prepare("UPDATE professionals SET status = 'payment_pending' WHERE id = ?").run(req.params.id);
-        res.status(200).json({ success: true, paymentLink: response.init_point });
+        
+        await sendPaymentLinkEmail(professional.email, professional.fullName, response.init_point);
+        
+        res.status(200).json({ success: true, message: 'Profissional aprovado! Um e-mail com o link de pagamento foi enviado para ele.' });
+
     } catch (err) {
         console.error('Erro ao aprovar e gerar pagamento:', err);
         res.status(500).json({ success: false, message: 'Erro ao gerar link de pagamento.' });
@@ -374,6 +445,7 @@ app.post('/mercadopago-webhook', async (req, res) => {
         }
         res.status(200).send('Webhook processado.');
     } catch (error) {
+        console.error('Erro no webhook do Mercado Pago:', error);
         res.status(500).send('Erro ao processar webhook');
     }
 });

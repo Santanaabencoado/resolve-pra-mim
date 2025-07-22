@@ -112,11 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                if (action === 'approve' && result.paymentLink) {
-                    prompt(
-                        "Profissional pré-aprovado! Envie este link de pagamento para ele:",
-                        result.paymentLink
-                    );
+                if (action === 'approve') {
+                alert(result.message); 
+                removeCard(id);
                 }
                 removeCard(id); 
             } else {

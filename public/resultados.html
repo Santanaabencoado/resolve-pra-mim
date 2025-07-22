@@ -18,8 +18,22 @@
         <div class="container">
             <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
             <nav class="main-nav">
-                <a href="login-profissional.html" class="nav-link-secondary">Login</a>
-                <a href="cadastro-profissional.html" class="nav-link">Sou Profissional</a>
+                <div id="logged-out-nav" class="nav-section">
+                    <a href="login.html" class="nav-link-secondary">Login</a>
+                    <a href="cadastro-tipo.html" class="nav-link">Cadastre-se</a>
+                </div>
+
+                <div id="logged-in-pro-nav" class="nav-section" style="display: none;">
+                    <span class="welcome-message">Olá, <span id="pro-name"></span>!</span>
+                    <a href="dashboard-profissional.html" class="nav-link-secondary">Meu Painel</a>
+                    <a href="/professionals/logout" class="nav-link-logout">Sair</a>
+                </div>
+
+                <div id="logged-in-client-nav" class="nav-section" style="display: none;">
+                    <span class="welcome-message">Olá, <span id="client-name"></span>!</span>
+                    <a href="favoritos.html" class="nav-link-secondary">Favoritos</a>
+                    <a href="/clients/logout" class="nav-link-logout">Sair</a>
+                </div>
             </nav>
         </div>
     </header>
@@ -58,5 +72,6 @@
     </footer>
 
     <script src="resultados.js"></script>
+    <script src="shared.js"></script>
 </body>
 </html>

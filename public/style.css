@@ -1,14 +1,18 @@
+/* --- NOVA PALETA DE CORES E VARIÁVEIS GLOBAIS --- */
 :root {
-    --primary-color: #005A9C;   
-    --secondary-color: #FDB913;
-    --dark-color: #1A202C;      
-    --gray-color: #4A5568;      
-    --light-gray-color: #F7FAFC;
+    --primary-color: #00796B;   /* Verde-azulado (Teal) principal */
+    --secondary-color: #FFC107; /* Amarelo-âmbar para destaque */
+    --dark-color: #263238;      /* Cinza-azulado escuro para textos */
+    --gray-color: #546E7A;      /* Cinza-azulado médio para textos secundários */
+    --light-gray-color: #ECEFF1;/* Cinza bem claro para fundos */
     --white-color: #FFFFFF;
-    --success-color: #28a745;
+    --success-color: #4CAF50;   /* Verde sucesso mais vibrante */
+    --danger-color: #D32F2F;    /* Vermelho perigo mais moderno */
 
     --body-font: 'Inter', sans-serif;
-    --border-radius: 8px;
+    --border-radius: 12px; /* Bordas um pouco mais arredondadas */
+    --shadow-soft: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-hover: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
 }
 
 * {
@@ -36,16 +40,17 @@ body {
 
 .section-title {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 40px;
     color: var(--dark-color);
+    font-weight: 700;
 }
 
 /* --- CABEÇALHO --- */
 .header {
     background-color: var(--white-color);
     padding: 15px 0;
-    border-bottom: 1px solid #E2E8F0;
+    border-bottom: 1px solid #CFD8DC;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -81,6 +86,8 @@ body {
 .nav-link:hover {
     background-color: var(--primary-color);
     color: var(--white-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
 }
 
 /* --- SEÇÃO HERO --- */
@@ -88,6 +95,7 @@ body {
     background-color: var(--light-gray-color);
     text-align: center;
     padding: 80px 0;
+    border-bottom: 1px solid #CFD8DC;
 }
 
 .hero h1 {
@@ -117,9 +125,15 @@ body {
     display: flex;
     align-items: center;
     background-color: var(--white-color);
-    border: 1px solid #CBD5E0;
+    border: 1px solid #CFD8DC;
     border-radius: var(--border-radius);
     padding: 0 15px;
+    box-shadow: var(--shadow-soft);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2);
 }
 
 .search-box i {
@@ -144,11 +158,13 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .search-form button:hover {
-    background-color: #004475;
+    background-color: #004D40; /* Teal mais escuro */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 .quick-categories {
@@ -181,18 +197,19 @@ body {
 
 .category-card {
     background-color: var(--white-color);
-    border: 1px solid #E2E8F0;
+    border: 1px solid #CFD8DC;
     border-radius: var(--border-radius);
     padding: 30px;
     text-align: center;
     text-decoration: none;
     color: var(--dark-color);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease-in-out;
 }
 
 .category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
     border-color: var(--primary-color);
 }
 
@@ -200,12 +217,12 @@ body {
     width: 60px;
     height: 60px;
     margin: 0 auto 20px;
-    background-color: var(--light-gray-color);
+    background: linear-gradient(135deg, var(--light-gray-color), var(--white-color));
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--primary-color);
 }
 
@@ -276,11 +293,10 @@ body {
     background-color: #f0f0f0;
 }
 
-
 /* --- RODAPÉ --- */
 .footer {
     background-color: var(--dark-color);
-    color: #A0AEC0;
+    color: #B0BEC5;
     padding: 30px 0;
 }
 
@@ -292,7 +308,7 @@ body {
 }
 
 .footer-links a {
-    color: #A0AEC0;
+    color: #B0BEC5;
     text-decoration: none;
     margin: 0 10px;
     transition: color 0.3s ease;
@@ -301,7 +317,8 @@ body {
 .footer-links a:hover {
     color: var(--white-color);
 }
-/* --- SEÇÃO DOR DO CLIENTE ("CANSADO DE...") --- */
+
+/* --- SEÇÃO DOR DO CLIENTE --- */
 .pain-points-section {
     padding: 80px 0;
     background-color: var(--white-color);
@@ -360,59 +377,152 @@ body {
 }
 
 .btn-cta-solution:hover {
-    background-color: #218838;
+    background-color: #388E3C;
     transform: scale(1.05);
 }
 
-/* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+/* --- MEDIA QUERIES --- */
 @media (min-width: 600px) {
     .search-form {
         flex-direction: row;
     }
-
     .search-box {
         flex-grow: 1; 
     }
-
-    .category-grid, .trust-grid {
+    .category-grid, .trust-grid, .pain-points-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 900px) {
-    .section-title, .hero h1, .hero .subtitle {
-        font-size: 2.8rem;
-    }
+    .section-title { font-size: 2.5rem; }
+    .hero h1 { font-size: 2.8rem; }
     .hero .subtitle {font-size: 1.2rem;}
-
     .category-grid {
         grid-template-columns: repeat(4, 1fr);
     }
-
     .trust-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-
     .footer .container {
         flex-direction: row;
         justify-content: space-between;
     }
 }
-/* Estilo para o link secundário no cabeçalho */
+
+/* --- ESTILOS DE NAVEGAÇÃO E DROPDOWN --- */
 .main-nav {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+.nav-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .nav-link-secondary {
+    position: relative; 
     text-decoration: none;
+    padding-bottom: 5px; 
     color: var(--primary-color);
     font-weight: 600;
-    padding: 8px 0; 
     transition: color 0.3s ease;
+}
+
+.nav-link-secondary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0; 
+    height: 2px;
+    background-color: var(--primary-color); 
+    transition: all 0.3s ease-in-out; 
 }
 
 .nav-link-secondary:hover {
     color: var(--dark-color);
+}
+
+.nav-link-secondary:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+.nav-link-logout {
+    position: relative; 
+    overflow: hidden; 
+    z-index: 1;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--danger-color);
+    border: 2px solid var(--danger-color);
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    transition: color 0.4s ease-in-out; 
+}
+
+.nav-link-logout::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--danger-color); 
+    transform: translateY(100%); 
+    transition: transform 0.4s ease-in-out;
+    z-index: -1; 
+}
+
+.nav-link-logout:hover {
+    color: white;
+}
+
+.nav-link-logout:hover::before {
+    transform: translateY(0);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Alinha o dropdown à direita */
+    background-color: var(--white-color);
+    min-width: 200px;
+    box-shadow: var(--shadow-hover);
+    z-index: 1;
+    border-radius: var(--border-radius);
+    overflow: hidden; 
+    border: 1px solid var(--light-gray-color);
+}
+
+.dropdown-content a {
+    color: var(--dark-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--light-gray-color);
+    color: var(--primary-color);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.welcome-message {
+    font-weight: 600;
+    color: var(--gray-color);
 }

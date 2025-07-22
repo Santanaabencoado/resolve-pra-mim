@@ -232,3 +232,44 @@
         padding-top: 0;
     }
 }
+
+/* --- Estilos para o Login Unificado --- */
+.role-title {
+    font-size: 1rem;
+    color: var(--gray-color);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.role-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.role-option {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.role-option:hover {
+    background-color: #f7fafc;
+    border-color: var(--primary-color);
+}
+.role-option.selected {
+    border-color: var(--primary-color);
+    background-color: #e6f6ff;
+    box-shadow: 0 0 10px rgba(0, 90, 156, 0.2);
+}
+.role-option i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 10px;
+}
+.role-option span {
+    font-weight: 600;
+    color: var(--dark-color);
+}
