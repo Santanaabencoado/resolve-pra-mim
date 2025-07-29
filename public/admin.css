@@ -1,168 +1,25 @@
-.admin-main {
-    padding: 60px 0;
-    background-color: var(--light-gray-color);
-    min-height: 80vh;
-}
+/* public/admin.css - VERSÃO MODERNIZADA FINAL E COMPLETA */
 
-.admin-tag {
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
-.admin-main h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.admin-main p {
-    font-size: 1.1rem;
-    color: var(--gray-color);
-    margin-bottom: 40px;
-}
-
-.pending-card {
-    background-color: var(--white-color);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-    padding: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.pending-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.pending-info img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.pending-details h4 {
-    font-size: 1.4rem;
-    margin: 0;
-}
-
-.pending-details p {
-    font-size: 1rem;
-    color: var(--gray-color);
-    margin: 5px 0 0;
-}
-
-.pending-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-start;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
-}
-
-.btn-admin {
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.btn-admin:hover {
-    transform: scale(1.05);
-}
-
-.btn-approve {
-    background-color: var(--success-color);
-    color: white;
-}
-
-.btn-reject {
-    background-color: #dc3545;
-    color: white;
-}
-
-.admin-modal-content {
-    width: 90%;
-    max-width: 900px; 
-}
-
-#modal-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
-    margin-top: 20px;
-}
-
-.modal-section {
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e2e8f0;
-}
-.modal-section:last-child {
-    border-bottom: none;
-}
-
-
-.modal-section h4 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-}
-
-.modal-section p {
-    margin: 0 0 8px;
-    line-height: 1.5;
-}
-
-.modal-section p strong {
-    color: var(--dark-color);
-    min-width: 120px;
-    display: inline-block;
-}
-
-.document-gallery {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.document-gallery a {
-    display: block;
-}
-
-.document-gallery img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border: 2px solid #ccc;
-    border-radius: var(--border-radius);
-    transition: transform 0.2s ease;
-}
-
-.document-gallery img:hover {
-    transform: scale(1.5);
-    z-index: 10;
-}
-
+/* --- Estilo de Corpo para Páginas de Acesso --- */
 .login-body {
-    background-color: var(--light-gray-color);
+    /* Um gradiente sutil para um fundo mais agradável */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 20px 0;
 }
 
+/* --- Container Central --- */
 .login-container {
     background-color: var(--white-color);
     padding: 40px;
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    /* Sombra mais suave e profissional */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
+    max-width: 450px;
     width: 90%;
 }
 
@@ -177,6 +34,7 @@
 
 .login-container h2 {
     margin-bottom: 10px;
+    font-size: 1.8rem;
 }
 
 .login-container p {
@@ -189,51 +47,27 @@
     margin-bottom: 20px;
 }
 
-.nav-link-logout {
-    text-decoration: none;
-    color: #dc3545;
-    font-weight: 600;
-    padding: 8px 16px;
-    border: 2px solid #dc3545;
+/* --- Botão Moderno e Estiloso --- */
+.submit-btn {
+    background: linear-gradient(90deg, var(--primary-color), #004D40); /* Gradiente na cor primária */
+    color: var(--white-color);
+    border: none;
+    padding: 15px 30px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 700;
     border-radius: var(--border-radius);
+    cursor: pointer;
     transition: all 0.3s ease;
-}
-.nav-link-logout:hover {
-    background-color: #dc3545;
-    color: white;
+    box-shadow: 0 4px 15px rgba(0, 121, 107, 0.3);
 }
 
-.error-box {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px;
-    border-radius: var(--border-radius);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.submit-btn:hover {
+    transform: translateY(-3px); /* Efeito de elevação */
+    box-shadow: 0 6px 20px rgba(0, 121, 107, 0.4);
 }
 
-@media (min-width: 768px) {
-    #modal-body {
-        grid-template-columns: 1fr 1fr; 
-    }
-}
-
-@media(min-width: 768px) {
-    .pending-card {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .pending-actions {
-        border-top: none;
-        padding-top: 0;
-    }
-}
-
-/* --- Estilos para o Login Unificado --- */
+/* --- Estilos para o Login e Cadastro Unificado --- */
 .role-title {
     font-size: 1rem;
     color: var(--gray-color);
@@ -253,6 +87,7 @@
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 .role-option:hover {
     background-color: #f7fafc;
@@ -260,8 +95,8 @@
 }
 .role-option.selected {
     border-color: var(--primary-color);
-    background-color: #e6f6ff;
-    box-shadow: 0 0 10px rgba(0, 90, 156, 0.2);
+    background-color: #E0F2F1; /* Verde-azulado bem claro */
+    box-shadow: 0 0 10px rgba(0, 121, 107, 0.2);
 }
 .role-option i {
     font-size: 2rem;
@@ -272,4 +107,159 @@
 .role-option span {
     font-weight: 600;
     color: var(--dark-color);
+}
+
+.error-box {
+    background-color: #FFCDD2; /* Vermelho claro */
+    color: #C62828; /* Vermelho escuro */
+    border: 1px solid #EF9A9A;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- Outros Estilos de Admin (Painel) --- */
+.admin-main {
+    padding: 60px 0;
+    background-color: var(--light-gray-color);
+    min-height: 80vh;
+}
+.admin-tag {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+.admin-main h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+.admin-main p {
+    font-size: 1.1rem;
+    color: var(--gray-color);
+    margin-bottom: 40px;
+}
+.pending-card {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.pending-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.pending-info img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.pending-details h4 {
+    font-size: 1.4rem;
+    margin: 0;
+}
+.pending-details p {
+    font-size: 1rem;
+    color: var(--gray-color);
+    margin: 5px 0 0;
+}
+.pending-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
+.btn-admin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.btn-admin:hover {
+    transform: scale(1.05);
+}
+.btn-approve {
+    background-color: var(--success-color);
+    color: white;
+}
+.btn-reject {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.admin-modal-content {
+    width: 90%;
+    max-width: 900px; 
+}
+#modal-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+.modal-section {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.modal-section:last-child {
+    border-bottom: none;
+}
+.modal-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+.modal-section p {
+    margin: 0 0 8px;
+    line-height: 1.5;
+}
+.modal-section p strong {
+    color: var(--dark-color);
+    min-width: 120px;
+    display: inline-block;
+}
+.document-gallery {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.document-gallery a {
+    display: block;
+}
+.document-gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    border-radius: var(--border-radius);
+    transition: transform 0.2s ease;
+}
+.document-gallery img:hover {
+    transform: scale(1.5);
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    #modal-body {
+        grid-template-columns: 1fr 1fr; 
+    }
+    .pending-card {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .pending-actions {
+        border-top: none;
+        padding-top: 0;
+    }
 }
