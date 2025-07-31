@@ -6,7 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let pendingProfessionalsData = {}; 
 
+      function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
+        setTimeout(() => { toast.classList.add('show'); }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => { toast.remove(); }, 500);
+        }, 3000); 
+    }
 
     function fetchPendingProfessionals() {
         listContainer.innerHTML = '<p class="loading-message">Carregando cadastros...</p>';
@@ -102,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsModal.style.display = 'block';
     }
 
-    function handleAction(action, id, button) {
+      function handleAction(action, id, button) {
         button.disabled = true;
         button.textContent = 'Processando...';
 
@@ -112,20 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                if (action === 'approve') {
-                alert(result.message); 
-                removeCard(id);
-                }
+                showToast(result.message || 'Ação realizada com sucesso!');
                 removeCard(id); 
             } else {
-                alert(`Erro ao processar: ${result.message}`);
+                showToast(result.message || 'Ocorreu um erro.', 'error');
                 button.disabled = false;
                 button.textContent = action === 'approve' ? 'Aprovar e Gerar Cobrança' : 'Reprovar';
             }
         })
         .catch(error => {
             console.error(`Erro na ação ${action}:`, error);
-            alert('Erro de comunicação com o servidor.');
+            showToast('Erro de comunicação com o servidor.', 'error');
             button.disabled = false;
         });
     }

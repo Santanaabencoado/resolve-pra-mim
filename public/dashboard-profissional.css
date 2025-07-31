@@ -179,3 +179,36 @@
     background-color: #dc3545;
     color: white;
 }
+
+.portfolio-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.portfolio-item {
+    position: relative;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--light-gray-color);
+}
+
+#portfolio-upload-form {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray-color);
+}
+
+#portfolio-upload-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #CFD8DC;
+    border-radius: var(--border-radius);
+    background-color: #f7fafc;
+}

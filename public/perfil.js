@@ -1,8 +1,14 @@
+// perfil.js - VERSÃO FINAL COM LÓGICA DE FAVORITOS CORRIGIDA
+
 document.addEventListener('DOMContentLoaded', () => {
+    // --- SELEÇÃO DE ELEMENTOS GLOBAIS ---
     const loadingContainer = document.getElementById('loading-container');
     const profileContent = document.getElementById('profile-content');
     const reviewForm = document.getElementById('reviewForm');
+    const reviewLoginPrompt = document.getElementById('review-login-prompt');
+    const favoriteWrapper = document.getElementById('favorite-icon-wrapper');
     
+    // --- LÓGICA PRINCIPAL ---
     const urlParams = new URLSearchParams(window.location.search);
     const professionalId = urlParams.get('id');
 
@@ -11,11 +17,98 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Inicia as buscas de dados da página
     fetchProfessionalData(professionalId);
     fetchReviews(professionalId);
+    fetchPublicPortfolio(professionalId);
+    checkClientLoginStatus();
+
+    // --- FUNÇÃO PARA MOSTRAR NOTIFICAÇÃO "TOAST" ---
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 500);
+        }, 5000);
+    }
+
+    // --- FUNÇÃO PARA VERIFICAR O LOGIN DO CLIENTE E CONTROLAR A INTERFACE ---
+    function checkClientLoginStatus() {
+        fetch('http://localhost:3000/api/clients/me')
+            .then(response => response.ok ? response.json() : null)
+            .then(result => {
+                if (result && result.success) {
+                    // SUCESSO: É um cliente logado
+                    if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'none';
+                    if (reviewForm) reviewForm.style.display = 'block';
+                    // CORREÇÃO: Mostra o ícone de favorito
+                    if (favoriteWrapper) favoriteWrapper.style.display = 'block';
+                    checkFavoriteStatus(professionalId);
+                } else {
+                    // Não é um cliente logado
+                    if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'block';
+                    if (reviewForm) reviewForm.style.display = 'none';
+                    // CORREÇÃO: Garante que o ícone de favorito fique escondido
+                    if (favoriteWrapper) favoriteWrapper.style.display = 'none';
+                }
+            })
+            .catch(err => {
+                // Em caso de erro de rede, assume que não está logado
+                if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'block';
+                if (reviewForm) reviewForm.style.display = 'none';
+                if (favoriteWrapper) favoriteWrapper.style.display = 'none';
+            });
+    }
+
+    // --- LÓGICA DE FAVORITOS ---
+    let isCurrentlyFavorite = false;
+
+    function checkFavoriteStatus(profId) {
+        fetch(`http://localhost:3000/api/favorites/status/${profId}`)
+            .then(res => res.json())
+            .then(result => {
+                if (result.success && result.isFavorite) {
+                    isCurrentlyFavorite = true;
+                    favoriteWrapper.classList.add('is-favorite');
+                } else {
+                    isCurrentlyFavorite = false;
+                    favoriteWrapper.classList.remove('is-favorite');
+                }
+            });
+    }
+    
+    if (favoriteWrapper) {
+        favoriteWrapper.addEventListener('click', () => {
+            const method = isCurrentlyFavorite ? 'DELETE' : 'POST';
+            
+            fetch(`http://localhost:3000/api/favorites/${professionalId}`, { method: method })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        isCurrentlyFavorite = !isCurrentlyFavorite;
+                        favoriteWrapper.classList.toggle('is-favorite');
+                        showToast(isCurrentlyFavorite ? 'Adicionado aos Favoritos!' : 'Removido dos Favoritos.');
+                    } else {
+                        if (result.message && result.message.includes('Acesso não autorizado')) {
+                            showToast(`Você precisa fazer login para favoritar.<br><br><a href="login.html" class="btn-moderno btn-principal" style="padding: 8px 15px; font-size: 0.9rem;">Fazer Login</a>`, 'error');
+                        } else {
+                            showToast(result.message, 'error');
+                        }
+                    }
+                })
+                .catch(err => showToast('Erro de conexão. Tente novamente.', 'error'));
+        });
+    }
 
     // --- Funções de Busca (Fetch) ---
-
     function fetchProfessionalData(id) {
         fetch(`http://localhost:3000/api/professionals/${id}`)
             .then(response => {
@@ -48,8 +141,29 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Erro ao buscar avaliações:', error));
     }
 
-    // --- Funções de Exibição (Display) ---
+    function fetchPublicPortfolio(id) {
+        const gallery = document.getElementById('portfolio-gallery-public');
+        if (!gallery) return;
+        fetch(`http://localhost:3000/api/portfolio/${id}`)
+            .then(res => res.json())
+            .then(result => {
+                const portfolioSection = document.querySelector('.portfolio-section');
+                if(result.success && result.data.length > 0) {
+                    if (portfolioSection) portfolioSection.style.display = 'block';
+                    gallery.innerHTML = ''; // Limpa antes de adicionar
+                    result.data.forEach(image => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = `http://localhost:3000/${image.image_path}`;
+                        imgElement.alt = image.caption || 'Foto do portfólio';
+                        gallery.appendChild(imgElement);
+                    });
+                } else {
+                    if (portfolioSection) portfolioSection.style.display = 'none';
+                }
+            });
+    }
 
+    // --- Funções de Exibição (Display) ---
     function displayReviews(reviews) {
         const reviewsContainer = document.getElementById('reviews-list-container');
         reviewsContainer.innerHTML = ''; 
@@ -114,9 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingContainer.innerHTML = `<p class="no-results-message">${message}</p>`;
         profileContent.style.display = 'none';
     }
-    
+ 
     // --- Lógica de Eventos ---
-
     if(reviewForm) {
         reviewForm.addEventListener('submit', (event) => {
             event.preventDefault(); 
@@ -139,14 +252,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     reviewForm.innerHTML = `<div class="success-message" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; text-align: center;">${result.message}</div>`;
                     fetchReviews(professionalId);
                 } else {
-                    alert(`Erro: ${result.message}`);
+                    if(result.message && result.message.includes('Acesso não autorizado')) {
+                         showToast(
+                            `Você precisa fazer login para avaliar.<br><br><a href="login.html" class="btn-moderno btn-principal" style="padding: 8px 15px; font-size: 0.9rem;">Fazer Login</a>`,
+                            'error'
+                        );
+                    } else {
+                        showToast(result.message || 'Ocorreu um erro.', 'error');
+                    }
                     submitButton.disabled = false;
                     submitButton.textContent = 'Enviar Avaliação';
                 }
             })
             .catch(error => {
                 console.error('Erro ao enviar avaliação:', error);
-                alert('Não foi possível enviar sua avaliação. Tente novamente.');
+                showToast('Não foi possível enviar sua avaliação. Tente novamente.', 'error');
                 submitButton.disabled = false;
                 submitButton.textContent = 'Enviar Avaliação';
             });

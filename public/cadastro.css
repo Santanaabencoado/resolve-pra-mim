@@ -63,6 +63,7 @@
     font-weight: 500;
     font-size: 1rem;
     color: var(--gray-color);
+    margin-bottom: 5px;
 }
 
 .form-group input[type="text"],
@@ -74,16 +75,16 @@
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px 0 8px 0; 
-    border: none;
-    border-bottom: 2px solid #CFD8DC;
+    padding: 12px 5px 8px 5px;
+    border: none; 
+    border-bottom: 2px solid #CFD8DC; 
     background-color: transparent;
     font-size: 1.1rem;
     font-family: var(--body-font);
     color: var(--dark-color);
     transition: border-color 0.3s ease;
+    border-radius: 0; 
 }
-
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -209,7 +210,7 @@
 }
 
 input.invalid, select.invalid {
-    border-color: #e53e3e;
+    border-bottom-color: var(--danger-color);
 }
 
 /* --- ESTILOS DO MODAL --- */

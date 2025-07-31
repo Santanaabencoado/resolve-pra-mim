@@ -13,22 +13,19 @@
     <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
-
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
             <nav class="main-nav">
                 <div id="logged-out-nav" class="nav-section">
                     <a href="login.html" class="nav-link-secondary">Login</a>
-                    <a href="cadastro-tipo.html" class="nav-link">Cadastre-se</a>
+                    <a href="cadastro-tipo.html" class="btn-moderno btn-principal">Cadastre-se</a>
                 </div>
-
                 <div id="logged-in-pro-nav" class="nav-section" style="display: none;">
                     <span class="welcome-message">Olá, <span id="pro-name"></span>!</span>
                     <a href="dashboard-profissional.html" class="nav-link-secondary">Meu Painel</a>
                     <a href="/professionals/logout" class="nav-link-logout">Sair</a>
                 </div>
-
                 <div id="logged-in-client-nav" class="nav-section" style="display: none;">
                     <span class="welcome-message">Olá, <span id="client-name"></span>!</span>
                     <a href="favoritos.html" class="nav-link-secondary">Favoritos</a>
@@ -43,30 +40,26 @@
             <div id="loading-container">
                 <p class="loading-message">Carregando perfil do profissional...</p>
             </div>
-
             <div id="profile-content" class="profile-grid" style="display: none;">
-                
                 <div class="profile-header">
+                    <div id="favorite-icon-wrapper" class="favorite-icon-wrapper" style="display: none;">
+                        <i class="fa-regular fa-heart"></i>
+                    </div>
                     <img id="profile-pic" src="" alt="Foto do profissional">
                     <h1 id="profile-name"></h1>
                     <p id="profile-service-type" class="service-tag"></p>
                 </div>
-
                 <div class="profile-details">
                     <h2>Sobre o Profissional</h2>
                     <p id="profile-bio"></p>
-                    
                     <h3>Detalhes</h3>
                     <ul>
                         <li><i class="fa-solid fa-star"></i> <strong id="profile-experience"></strong> anos de experiência</li>
                         <li><i class="fa-solid fa-location-dot"></i> Atende em <strong id="profile-location"></strong></li>
                     </ul>
-
                     <h3>Formas de Pagamento</h3>
-                    <div id="profile-payment-methods" class="payment-methods">
-                        </div>
+                    <div id="profile-payment-methods" class="payment-methods"></div>
                 </div>
-
                 <div class="profile-contact">
                     <h2>Entre em Contato</h2>
                     <p>Gostou do profissional? Fale diretamente com ele pelo WhatsApp!</p>
@@ -74,19 +67,19 @@
                         <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
                     </a>
                 </div>
-
-            </div>
-              <div class="review-section">
+                <div class="portfolio-section" style="display: none;">
+                    <h2>Portfólio de Trabalhos</h2>
+                    <div id="portfolio-gallery-public" class="portfolio-gallery-public"></div>
+                </div>
+                <div class="review-section">
                     <h2>Deixe sua Avaliação</h2>
-                    <p>Contratou este profissional? Compartilhe sua experiência!</p>
-                    <form id="reviewForm">
+                    <div id="review-login-prompt" style="display: none; text-align: center; padding: 20px; border: 2px dashed var(--light-gray-color); border-radius: var(--border-radius);">
+                        <p style="margin-bottom: 20px; font-size: 1.1rem; color: var(--gray-color);">Você precisa estar logado como cliente para deixar uma avaliação.</p>
+                        <a href="login.html" class="btn-moderno btn-principal">Fazer Login ou Cadastrar</a>
+                    </div>
+                    <form id="reviewForm" style="display: none;">
+                        <p>Contratou este profissional? Compartilhe sua experiência!</p>
                         <input type="hidden" id="professionalIdInput" name="professional_id">
-                        
-                        <div class="form-group">
-                            <label for="client_name">Seu Nome</label>
-                            <input type="text" id="client_name" name="client_name" required>
-                        </div>
-                        
                         <div class="form-group">
                             <label>Sua Nota</label>
                             <div class="rating-stars">
@@ -97,29 +90,25 @@
                                 <input type="radio" id="star1" name="rating" value="1" required><label for="star1" title="1 estrela">★</label>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="comment">Seu Comentário</label>
                             <textarea id="comment" name="comment" rows="4" required></textarea>
                         </div>
-
-                       <button type="submit" class="btn-moderno btn-principal">Enviar Avaliação</button>
+                        <button type="submit" class="btn-moderno btn-principal">Enviar Avaliação</button>
                     </form>
                 </div>
                 <div class="reviews-display-section">
                     <h2>Avaliações de Clientes</h2>
-                    <div id="reviews-list-container">
-                        </div>
+                    <div id="reviews-list-container"></div>
                 </div>
+            </div>
         </div>
     </main>
-
     <footer class="footer">
         <div class="container">
             <p>&copy; 2025 Resolve Pra Mim. Todos os direitos reservados.</p>
         </div>
     </footer>
-
     <script src="perfil.js"></script>
     <script src="shared.js"></script>
 </body>

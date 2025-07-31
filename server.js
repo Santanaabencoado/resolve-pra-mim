@@ -1,4 +1,4 @@
-// server.js - VERSÃO FINAL COM LOGOUT DE PROFISSIONAL
+// server.js - VERSÃO COM LOGIN DE ADMIN SEPARADO
 
 // --- 1. IMPORTAÇÕES ---
 require('dotenv').config();
@@ -97,8 +97,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// CORREÇÃO 1: O "segurança" do Admin agora redireciona para a página certa
 const checkAuth = (req, res, next) => {
-    if (req.session.isLoggedIn) { next(); } else { res.redirect('/login.html'); }
+    if (req.session.isLoggedIn) { next(); } else { res.redirect('/login-admin.html'); }
 };
 
 const checkProfessionalAuth = (req, res, next) => {
@@ -116,14 +117,12 @@ const checkClientAuth = (req, res, next) => {
         res.status(401).json({ success: false, message: 'Acesso não autorizado. Por favor, faça o login.' });
     }
 };
-
 // --- 5. ROTAS DA APLICAÇÃO ---
 
 // --- ROTAS PÚBLICAS, DE PROFISSIONAIS E CLIENTES ---
-
 app.post('/api/register-professional', upload.fields([
     { name: 'profilePic', maxCount: 1 }, { name: 'docPhoto', maxCount: 1 }, { name: 'selfie', maxCount: 1 }
-]), async (req, res) => { 
+]), async (req, res) => {
     const { fullName, cpf, birthDate, email, phone, cep, bairro, address, serviceType, cnpj, experience, bio, password } = req.body;
     if (!fullName || !cpf || !password) {
         return res.status(400).json({ success: false, message: 'Nome, CPF e Senha são obrigatórios.' });
@@ -267,8 +266,11 @@ app.put('/api/professionals/me', checkProfessionalAuth, (req, res) => {
     }
 });
 
-app.post('/api/reviews', (req, res) => {
-    const { professional_id, rating, comment, client_name } = req.body;
+app.post('/api/reviews', checkClientAuth, (req, res) => { 
+    
+    const client_name = req.session.clientName; 
+    const { professional_id, rating, comment } = req.body;
+
     if (!professional_id || !rating || !comment || !client_name) {
         return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios.' });
     }
@@ -278,9 +280,11 @@ app.post('/api/reviews', (req, res) => {
         stmt.run({ professional_id, rating, comment, client_name });
         res.status(201).json({ success: true, message: 'Obrigado pela sua avaliação!' });
     } catch (err) {
+        console.error("Erro ao salvar avaliação:", err.message);
         res.status(500).json({ success: false, message: 'Erro ao salvar sua avaliação.' });
     }
 });
+
 
 app.get('/api/professionals', (req, res) => {
     const { service, bairro } = req.query;
@@ -328,6 +332,134 @@ app.get('/api/reviews/:professional_id', (req, res) => {
     }
 });
 
+app.post('/api/portfolio', checkProfessionalAuth, upload.single('portfolioImage'), (req, res) => {
+    try {
+        const professionalId = req.session.professionalId;
+        const imagePath = req.file.path; 
+        const { caption } = req.body;
+
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Nenhuma imagem foi enviada.' });
+        }
+
+        const sql = `INSERT INTO portfolio_images (professional_id, image_path, caption) VALUES (?, ?, ?)`;
+        const stmt = db.prepare(sql);
+        stmt.run(professionalId, imagePath, caption);
+
+        console.log(`Nova foto adicionada ao portfólio do profissional ID ${professionalId}`);
+        res.status(201).json({ success: true, message: 'Imagem adicionada ao seu portfólio!' });
+
+    } catch (err) {
+        console.error('Erro ao fazer upload para o portfólio:', err.message);
+        res.status(500).json({ success: false, message: 'Erro interno ao salvar a imagem.' });
+    }
+});
+
+app.post('/api/portfolio', checkProfessionalAuth, upload.single('portfolioImage'), (req, res) => {
+    try {
+        const professionalId = req.session.professionalId;
+        const imagePath = req.file.path;
+        const { caption } = req.body;
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'Nenhuma imagem foi enviada.' });
+        }
+        const sql = `INSERT INTO portfolio_images (professional_id, image_path, caption) VALUES (?, ?, ?)`;
+        db.prepare(sql).run(professionalId, imagePath, caption);
+        res.status(201).json({ success: true, message: 'Imagem adicionada ao seu portfólio!' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro interno ao salvar a imagem.' });
+    }
+});
+
+// NOVA ROTA: BUSCAR IMAGENS DO PORTFÓLIO DE UM PROFISSIONAL
+app.get('/api/portfolio/:id', (req, res) => {
+    try {
+        const professionalId = req.params.id;
+        const sql = "SELECT * FROM portfolio_images WHERE professional_id = ? ORDER BY uploadedAt DESC";
+        const images = db.prepare(sql).all(professionalId);
+        const imagesWithCorrectPath = images.map(img => ({
+            ...img,
+            image_path: img.image_path.replace(/\\/g, '/')
+        }));
+        res.status(200).json({ success: true, data: imagesWithCorrectPath });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro ao buscar imagens do portfólio.' });
+    }
+});
+
+app.post('/api/favorites/:professional_id', checkClientAuth, (req, res) => {
+    try {
+        const clientId = req.session.clientId;
+        const professionalId = req.params.professional_id;
+
+        const sql = `INSERT INTO favorites (client_id, professional_id) VALUES (?, ?)`;
+        db.prepare(sql).run(clientId, professionalId);
+        
+        res.status(201).json({ success: true, message: 'Profissional favoritado com sucesso!' });
+    } catch (err) {
+        if (err.code === 'SQLITE_CONSTRAINT_PRIMARYKEY') {
+            return res.status(200).json({ success: true, message: 'Profissional já estava nos favoritos.' });
+        }
+        res.status(500).json({ success: false, message: 'Erro ao favoritar profissional.' });
+    }
+});
+
+// ROTA PROTEGIDA: Remover um profissional dos favoritos
+app.delete('/api/favorites/:professional_id', checkClientAuth, (req, res) => {
+    try {
+        const clientId = req.session.clientId;
+        const professionalId = req.params.professional_id;
+
+        const sql = `DELETE FROM favorites WHERE client_id = ? AND professional_id = ?`;
+        const info = db.prepare(sql).run(clientId, professionalId);
+
+        if (info.changes > 0) {
+            res.status(200).json({ success: true, message: 'Profissional removido dos favoritos.' });
+        } else {
+            res.status(404).json({ success: false, message: 'Favorito não encontrado.' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro ao remover favorito.' });
+    }
+});
+
+// ROTA PROTEGIDA: Listar todos os profissionais favoritos de um cliente
+app.get('/api/favorites', checkClientAuth, (req, res) => {
+    try {
+        const clientId = req.session.clientId;
+        const sql = `
+            SELECT p.id, p.fullName, p.profilePic, p.serviceType, p.bio, p.bairro
+            FROM professionals p
+            INNER JOIN favorites f ON p.id = f.professional_id
+            WHERE f.client_id = ?
+        `;
+        const favorites = db.prepare(sql).all(clientId);
+
+        const favoritesWithCorrectPath = favorites.map(prof => ({
+            ...prof,
+            profilePic: prof.profilePic ? prof.profilePic.replace(/\\/g, '/') : null
+        }));
+        
+        res.status(200).json({ success: true, data: favoritesWithCorrectPath });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro ao buscar favoritos.' });
+    }
+});
+
+app.get('/api/favorites/status/:professional_id', checkClientAuth, (req, res) => {
+    try {
+        const clientId = req.session.clientId;
+        const professionalId = req.params.professional_id;
+        const sql = `SELECT * FROM favorites WHERE client_id = ? AND professional_id = ?`;
+        const favorite = db.prepare(sql).get(clientId, professionalId);
+        
+        res.status(200).json({ success: true, isFavorite: !!favorite });
+
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Erro ao verificar status de favorito.' });
+    }
+});
+
 
 // --- ROTAS DE ADMIN (Protegidas) ---
 app.post('/admin/login', (req, res) => {
@@ -336,7 +468,7 @@ app.post('/admin/login', (req, res) => {
         req.session.isLoggedIn = true;
         res.redirect('/admin.html');
     } else {
-        res.redirect('/login.html?error=true');
+        res.redirect('/login-admin.html?error=true');
     }
 });
 
@@ -344,11 +476,11 @@ app.get('/admin/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) return res.redirect('/admin.html');
         res.clearCookie('connect.sid');
-        res.redirect('/login.html');
+        // CORREÇÃO 2: A Rota de Logout do Admin agora redireciona para a página correta
+        res.redirect('/login-admin.html');
     });
 });
 
-// A ROTA DE LOGOUT DO PROFISSIONAL QUE ESTAVA FALTANDO
 app.get('/professionals/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) return res.redirect('/dashboard-profissional.html');
@@ -357,7 +489,6 @@ app.get('/professionals/logout', (req, res) => {
     });
 });
 
-// A ROTA DE LOGOUT DO CLIENTE QUE ESTAVA FALTANDO
 app.get('/clients/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) return res.redirect('/');

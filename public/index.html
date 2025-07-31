@@ -9,13 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div class="loader-wrapper" id="page-loader">
+            <div class="loader"></div>
+        </div>
     <header class="header">
         <div class="container">
             <a href="#" class="logo">Resolve<span>PraMim</span></a>
@@ -66,19 +68,19 @@
             <div class="container">
                 <h2 class="section-title">Cansado de...</h2>
                 <div class="pain-points-grid">
-                    <div class="pain-point-item">
+                    <div class="pain-point-item" data-aos="fade-up">
                         <i class="fa-regular fa-clock"></i>
                         <p>Esperar horas por um técnico que marca e não aparece?</p>
                     </div>
-                    <div class="pain-point-item">
+                    <div class="pain-point-item" data-aos="fade-up">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                         <p>Orçamentos que mudam de valor no meio do serviço?</p>
                     </div>
-                    <div class="pain-point-item">
+                    <div class="pain-point-item" data-aos="fade-up">
                         <i class="fa-solid fa-ghost"></i>
                         <p>Profissionais que somem e não dão garantia do trabalho?</p>
                     </div>
-                    <div class="pain-point-item">
+                    <div class="pain-point-item" data-aos="fade-up">
                         <i class="fa-solid fa-screwdriver-wrench"></i>
                         <p>Serviços mal feitos que criam ainda mais dor de cabeça?</p>
                     </div>
@@ -93,22 +95,22 @@
             <div class="container">
                 <h2 class="section-title">Nossos Serviços Mais Procurados</h2>
                 <div class="category-grid">
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-aos="zoom-in">
                         <div class="icon-wrapper"><i class="fa-solid fa-faucet-drip"></i></div>
                         <h3>Hidráulica</h3>
                         <p>Vazamentos, instalações e reparos.</p>
                     </a>
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-aos="zoom-in">
                         <div class="icon-wrapper"><i class="fa-solid fa-bolt"></i></div>
                         <h3>Elétrica</h3>
                         <p>Chuveiros, tomadas, quadros de luz.</p>
                     </a>
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-aos="zoom-in">
                         <div class="icon-wrapper"><i class="fa-solid fa-paint-roller"></i></div>
                         <h3>Pintura</h3>
                         <p>Paredes, fachadas e pequenos reparos.</p>
                     </a>
-                    <a href="#" class="category-card">
+                    <a href="#" class="category-card" data-aos="zoom-in">
                         <div class="icon-wrapper"><i class="fa-solid fa-couch"></i></div>
                         <h3>Montagem</h3>
                         <p>Móveis novos, desmontagem e reparos.</p>
@@ -121,17 +123,17 @@
             <div class="container">
                 <h2 class="section-title">Sua tranquilidade é nossa prioridade</h2>
                 <div class="trust-grid">
-                    <div class="trust-item">
+                    <div class="trust-item" data-aos="fade-up" data-aos-delay="100">
                         <i class="fa-solid fa-shield-halved"></i>
                         <h4>Profissionais Verificados</h4>
                         <p>Analisamos documentos e referências de todos os cadastrados.</p>
                     </div>
-                    <div class="trust-item">
+                    <div class="trust-item" data-aos="fade-up" data-aos-delay="200">
                         <i class="fa-solid fa-star"></i>
                         <h4>Avaliações Reais</h4>
                         <p>Apenas clientes que contrataram o serviço podem deixar uma avaliação.</p>
                     </div>
-                    <div class="trust-item">
+                    <div class="trust-item" data-aos="fade-up" data-aos-delay="200">
                         <i class="fa-solid fa-headset"></i>
                         <h4>Suporte ao Cliente</h4>
                         <p>Nossa equipe está pronta para ajudar em qualquer etapa do processo.</p>
@@ -164,5 +166,12 @@
 
     <script src="script.js"></script>
     <script src="shared.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+    AOS.init({
+      duration: 1000, 
+      once: true,     
+  });
+</script>
 </body>
 </html>

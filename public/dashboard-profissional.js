@@ -1,26 +1,27 @@
+// dashboard-profissional.js - VERSÃO FINAL COM PORTFÓLIO E EDIÇÃO DE PERFIL
+
 document.addEventListener('DOMContentLoaded', () => {
     const dashboardContainer = document.getElementById('dashboard-container');
-    let currentProfessionalData = null; 
+    let currentProfessionalData = null; // Guarda os dados do profissional
 
+    // --- FUNÇÕES DE UTILIDADE ---
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
         toast.className = `toast-notification ${type}`;
         toast.textContent = message;
-
         document.body.appendChild(toast);
-
         setTimeout(() => {
             toast.classList.add('show');
         }, 100);
-
         setTimeout(() => {
             toast.classList.remove('show');
             setTimeout(() => {
                 toast.remove();
             }, 500);
-        }, 3000); 
+        }, 3000);
     }
 
+    // --- FUNÇÕES DE BUSCA DE DADOS (FETCH) ---
     function fetchAndRenderDashboard() {
         fetch('http://localhost:3000/api/professionals/me')
             .then(response => {
@@ -34,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (result && result.success) {
                     currentProfessionalData = result.data;
                     renderDashboard(currentProfessionalData);
+                    // NOVA CHAMADA: Busca as imagens do portfólio após renderizar o painel
+                    fetchPortfolioImages();
                 } else {
                     dashboardContainer.innerHTML = `<p class="no-results-message">${result.message || 'Não foi possível carregar seus dados.'}</p>`;
                 }
@@ -44,6 +47,39 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // NOVA FUNÇÃO: Busca as imagens do portfólio do profissional logado
+    function fetchPortfolioImages() {
+        const gallery = document.getElementById('portfolio-gallery');
+        if (!gallery || !currentProfessionalData) return;
+        
+        gallery.innerHTML = '<p class="loading-message" style="font-size: 0.9rem;">Carregando fotos...</p>';
+
+        // Esta rota '/api/portfolio/:id' buscará as imagens do profissional
+        fetch(`http://localhost:3000/api/portfolio/${currentProfessionalData.id}`)
+            .then(res => res.json())
+            .then(result => {
+                gallery.innerHTML = ''; // Limpa a galeria
+                if(result.success) {
+                    if (result.data.length === 0) {
+                        gallery.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--gray-color);">Você ainda não adicionou fotos ao seu portfólio.</p>';
+                    } else {
+                        result.data.forEach(image => {
+                            const item = document.createElement('div');
+                            item.className = 'portfolio-item';
+                            item.innerHTML = `<img src="http://localhost:3000/${image.image_path.replace(/\\/g, '/')}" alt="${image.caption || 'Foto do portfólio'}">`;
+                            gallery.appendChild(item);
+                        });
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Erro ao buscar imagens do portfólio:", err);
+                gallery.innerHTML = '<p style="color: var(--danger-color);">Erro ao carregar fotos.</p>';
+            });
+    }
+
+
+    // --- FUNÇÕES DE RENDERIZAÇÃO E EVENTOS ---
     function renderDashboard(prof) {
         dashboardContainer.innerHTML = '';
         
@@ -61,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (prof.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'Rejeitado'; }
         else if (prof.status === 'payment_pending') { statusText = 'Aguardando Pagamento'; }
 
+        // O HTML completo do painel, incluindo o novo card de portfólio
         grid.innerHTML = `
             <div class="dashboard-card">
                 <h3>Status do seu Perfil</h3>
@@ -97,6 +134,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </form>
             </div>
+            <div class="dashboard-card">
+                <h3>Meu Portfólio</h3>
+                <p>Adicione fotos dos seus melhores trabalhos para que os clientes possam ver sua qualidade.</p>
+                <div id="portfolio-gallery" class="portfolio-gallery">
+                    </div>
+                <form id="portfolio-upload-form">
+                    <div class="form-group">
+                        <label for="portfolioImage">Nova Foto</label>
+                        <input type="file" id="portfolioImage" name="portfolioImage" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="caption">Legenda (opcional)</label>
+                        <input type="text" id="caption" name="caption" placeholder="Ex: Reforma de cozinha no Centro">
+                    </div>
+                    <button type="submit" class="btn-moderno btn-principal">Adicionar Foto</button>
+                </form>
+            </div>
         `;
         dashboardContainer.appendChild(grid);
 
@@ -108,42 +162,77 @@ document.addEventListener('DOMContentLoaded', () => {
         const cancelBtn = document.getElementById('cancel-btn');
         const editForm = document.getElementById('edit-form');
         const viewMode = document.getElementById('view-mode');
+        const portfolioForm = document.getElementById('portfolio-upload-form');
 
-        editBtn.addEventListener('click', () => {
-            document.getElementById('edit-fullName').value = currentProfessionalData.fullName;
-            document.getElementById('edit-phone').value = currentProfessionalData.phone;
-            document.getElementById('edit-bio').value = currentProfessionalData.bio;
-            
-            viewMode.style.display = 'none';
-            editForm.style.display = 'block';
-        });
+        if(editBtn) {
+            editBtn.addEventListener('click', () => {
+                document.getElementById('edit-fullName').value = currentProfessionalData.fullName;
+                document.getElementById('edit-phone').value = currentProfessionalData.phone;
+                document.getElementById('edit-bio').value = currentProfessionalData.bio;
+                viewMode.style.display = 'none';
+                editForm.style.display = 'block';
+            });
+        }
 
-        cancelBtn.addEventListener('click', () => {
-            viewMode.style.display = 'block';
-            editForm.style.display = 'none';
-        });
+        if(cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                viewMode.style.display = 'block';
+                editForm.style.display = 'none';
+            });
+        }
 
-        editForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const formData = new FormData(editForm);
-            const updatedData = Object.fromEntries(formData.entries());
+        if(editForm) {
+            editForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(editForm);
+                const updatedData = Object.fromEntries(formData.entries());
+                fetch('http://localhost:3000/api/professionals/me', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if(result.success) {
+                        showToast('Perfil atualizado com sucesso!');
+                        fetchAndRenderDashboard();
+                    } else {
+                        showToast('Erro ao atualizar: ' + result.message, 'error');
+                    }
+                })
+                .catch(err => showToast('Erro de conexão ao salvar.', 'error'));
+            });
+        }
 
-            fetch('http://localhost:3000/api/professionals/me', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedData)
-            })
-            .then(res => res.json())
-            .then(result => {
-                if(result.success) {
-                    showToast('Perfil atualizado com sucesso!');
-                    fetchAndRenderDashboard();
-                } else {
-                    showToast('Erro ao atualizar: ' + result.message, 'error');
-                }
-            })
-            .catch(err => showToast('Erro de conexão ao salvar.', 'error'));
-        });
+        if (portfolioForm) {
+            portfolioForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(portfolioForm);
+                const submitButton = portfolioForm.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+
+                fetch('http://localhost:3000/api/portfolio', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        showToast(result.message);
+                        portfolioForm.reset();
+                        fetchPortfolioImages(); 
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .catch(err => showToast('Erro de conexão ao enviar imagem.', 'error'))
+                .finally(() => {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Adicionar Foto';
+                });
+            });
+        }
     }
 
     fetchAndRenderDashboard();

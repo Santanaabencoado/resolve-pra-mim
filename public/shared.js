@@ -1,5 +1,3 @@
-// shared.js - VERSÃO COM LÓGICA PARA CLIENTE E PROFISSIONAL
-
 document.addEventListener('DOMContentLoaded', () => {
     const loggedOutNav = document.getElementById('logged-out-nav');
     const loggedInProNav = document.getElementById('logged-in-pro-nav');
@@ -11,35 +9,64 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loggedInClientNav) loggedInClientNav.style.display = 'none';
     };
 
-    // 1. Tenta verificar se um PROFISSIONAL está logado
-    fetch('http://localhost:3000/api/professionals/me')
-        .then(response => response.ok ? response.json() : null)
-        .then(result => {
+    hideAllNavs();
+
+    // Função para tentar verificar um tipo de usuário
+    const checkUser = async (apiUrl, navElement, nameElementId) => {
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+
+                return false; 
+            }
+            const result = await response.json();
             if (result && result.success) {
                 hideAllNavs();
-                if (loggedInProNav) {
-                    loggedInProNav.style.display = 'flex';
-                    document.getElementById('pro-name').textContent = result.data.fullName.split(' ')[0];
+                if (navElement) {
+                    navElement.style.display = 'flex';
+                    const nameSpan = document.getElementById(nameElementId);
+                    if (nameSpan) {
+                        const name = result.data.name || result.data.fullName;
+                        nameSpan.textContent = name.split(' ')[0];
+                    }
                 }
-            } else {
-                fetch('http://localhost:3000/api/clients/me')
-                    .then(response => response.ok ? response.json() : null)
-                    .then(clientResult => {
-                        if (clientResult && clientResult.success) {
-                            hideAllNavs();
-                            if (loggedInClientNav) {
-                                loggedInClientNav.style.display = 'flex';
-                                document.getElementById('client-name').textContent = clientResult.data.name.split(' ')[0];
-                            }
-                        } else {
-                            hideAllNavs();
-                            if (loggedOutNav) loggedOutNav.style.display = 'flex';
-                        }
-                    });
+                return true; 
             }
-        })
-        .catch(err => {
-            hideAllNavs();
-            if (loggedOutNav) loggedOutNav.style.display = 'flex';
+            return false; 
+        } catch (err) {
+            console.error(`Erro de conexão ao verificar ${apiUrl}:`, err);
+            return false;
+        }
+    };
+
+    const init = async () => {
+        const isPro = await checkUser('http://localhost:3000/api/professionals/me', loggedInProNav, 'pro-name');
+        if (!isPro) {
+            const isClient = await checkUser('http://localhost:3000/api/clients/me', loggedInClientNav, 'client-name');
+            if (!isClient) {
+                hideAllNavs();
+                if (loggedOutNav) loggedOutNav.style.display = 'flex';
+            }
+        }
+    };
+
+    init();
+});
+// --- LÓGICA DO LOADER DE PÁGINA ---
+const pageLoader = document.getElementById('page-loader');
+
+document.querySelectorAll('a').forEach(link => {
+    if (link.href.includes(window.location.hostname) && !link.href.includes('#')) {
+        link.addEventListener('click', (e) => {
+            if (pageLoader) {
+                pageLoader.classList.add('show');
+            }
         });
+    }
+});
+
+window.addEventListener('pageshow', () => {
+    if (pageLoader) {
+        pageLoader.classList.remove('show');
+    }
 });

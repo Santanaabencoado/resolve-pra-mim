@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crie sua Conta - Resolve Pra Mim</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="admin.css"> 
+    <link rel="stylesheet" href="cadastro.css"> 
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body class="login-body">
+    <div class="loader-wrapper" id="page-loader">
+            <div class="loader"></div>
+        </div>
     <div class="login-container">
         <a href="index.html" class="logo">Resolve<span>PraMim</span></a>
         <h2>Crie sua Conta de Cliente</h2>
@@ -19,7 +23,7 @@
         <div id="successMessage" class="success-message" style="display: none; border-color: var(--primary-color); background-color: #e6f6ff; text-align: left;">
             <h2 style="font-size: 1.5rem; color: var(--primary-color);">Conta Criada com Sucesso!</h2>
             <p style="color: var(--dark-color);">Você já pode fazer o login para favoritar seus profissionais preferidos.</p>
-            <a href="login-cliente.html" class="btn-back" style="background-color: var(--primary-color);">Fazer Login</a>
+            <a href="login.html" class="btn-back" style="background-color: var(--primary-color);">Fazer Login</a>
         </div>
 
         <form id="clientRegisterForm">
@@ -41,7 +45,7 @@
             </div>
             <button type="submit" class="btn-moderno btn-principal">Criar conta</button>
         </form>
-        <p style="margin-top: 20px; font-size: 0.9rem;">Já tem uma conta? <a href="login-cliente.html">Faça o login</a>.</p>
+        <p style="margin-top: 20px; font-size: 0.9rem;">Já tem uma conta? <a href="login.html">Faça o login</a>.</p>
     </div>
 
     <script src="cadastro-cliente.js"></script>

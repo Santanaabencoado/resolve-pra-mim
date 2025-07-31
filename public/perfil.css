@@ -1,3 +1,5 @@
+/* public/perfil.css - VERSÃO COM AVALIAÇÕES MODERNIZADAS */
+
 .profile-main {
     background-color: var(--light-gray-color);
     padding: 60px 0;
@@ -14,7 +16,7 @@
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    box-shadow: var(--shadow-soft);
 }
 
 #profile-pic {
@@ -42,7 +44,7 @@
     background-color: var(--white-color);
     padding: 30px;
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    box-shadow: var(--shadow-soft);
 }
 
 .profile-details h2, .profile-contact h2 {
@@ -98,52 +100,45 @@
     text-decoration: none;
     font-weight: 700;
     font-size: 1.2rem;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn-whatsapp:hover {
     background-color: #1DA851;
+    transform: scale(1.05);
 }
 
+/* --- SEÇÃO DE AVALIAÇÃO (NOVO ESTILO) --- */
 .review-section {
     background-color: var(--white-color);
-    padding: 30px;
+    padding: 40px;
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    box-shadow: var(--shadow-soft);
     grid-column: 1 / -1; 
 }
 
 .review-section h2 {
     font-size: 1.8rem;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 .review-section p {
     color: var(--gray-color);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 #reviewForm .form-group {
     margin-bottom: 20px;
 }
 
-#reviewForm .submit-btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 1.1rem;
-}
-
-@media(min-width: 768px) {
-    #reviewForm .submit-btn {
-        width: auto;
-        padding: 12px 30px;
-    }
-}
-
+/* --- ANIMAÇÃO E ESTILO DAS ESTRELAS (A MÁGICA) --- */
 .rating-stars {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-end;
+    justify-content: center; /* Centraliza as estrelas */
+    margin-bottom: 20px;
 }
 
 .rating-stars input[type="radio"] {
@@ -151,24 +146,31 @@
 }
 
 .rating-stars label {
-    font-size: 2.5rem; 
+    font-size: 3rem; 
     color: #ccc;      
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: transform 0.2s ease, color 0.2s ease; /* Animação de cor e tamanho */
 }
 
+/* Efeito de hover: Pinta a estrela e todas as anteriores */
 .rating-stars label:hover,
 .rating-stars label:hover ~ label {
-    color: var(--secondary-color); 
+    color: var(--secondary-color);
+    transform: scale(1.1); /* Aumenta um pouco a estrela no hover */
 }
 
+/* Efeito de seleção: Pinta a estrela selecionada e todas as anteriores */
 .rating-stars input[type="radio"]:checked ~ label {
-    color: var(--secondary-color); 
+    color: var(--secondary-color);
 }
 
+/* Animação de "salto" para a estrela selecionada */
+.rating-stars input[type="radio"]:checked + label {
+    transform: scale(1.2); /* A estrela clicada fica maior */
+}
+
+/* --- EXIBIÇÃO DAS AVALIAÇÕES --- */
 .reviews-display-section {
-    background-color: transparent; 
-    padding: 0; 
     grid-column: 1 / -1; 
     margin-top: 40px;
 }
@@ -176,14 +178,16 @@
 .reviews-display-section h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .review-card {
     background-color: var(--white-color);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--light-gray-color);
     border-radius: var(--border-radius);
-    padding: 20px;
-    margin-bottom: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-soft);
 }
 
 .review-header {
@@ -206,12 +210,13 @@
 .review-stars {
     color: var(--secondary-color); 
     font-size: 1.2rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .review-comment {
     color: var(--gray-color);
-    line-height: 1.6;
+    line-height: 1.7;
+    font-style: italic;
 }
 
 @media(min-width: 992px) {
@@ -225,4 +230,54 @@
     .profile-header { grid-area: header; }
     .profile-details { grid-area: details; }
     .profile-contact { grid-area: contact; }
+}
+
+.portfolio-section {
+    grid-column: 1 / -1;
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+}
+.portfolio-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+.portfolio-gallery-public {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+.portfolio-gallery-public img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.portfolio-gallery-public img:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+
+/* --- Estilos para o Ícone de Favorito --- */
+.favorite-icon-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: var(--danger-color);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.favorite-icon-wrapper:hover {
+    transform: scale(1.2);
+}
+
+.favorite-icon-wrapper.is-favorite .fa-heart {
+    font-weight: 900;
 }
