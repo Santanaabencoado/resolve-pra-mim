@@ -1,18 +1,15 @@
-/* public/style.css - VERSÃO MODERNIZADA FINAL E COMPLETA */
-
-/* --- NOVA PALETA DE CORES E VARIÁVEIS GLOBAIS --- */
 :root {
-    --primary-color: #00796B;   /* Verde-azulado (Teal) principal */
-    --secondary-color: #FFC107; /* Amarelo-âmbar para destaque */
-    --dark-color: #263238;      /* Cinza-azulado escuro para textos */
-    --gray-color: #546E7A;      /* Cinza-azulado médio para textos secundários */
-    --light-gray-color: #ECEFF1;/* Cinza bem claro para fundos */
+    --primary-color: #00796B;   
+    --secondary-color: #FFC107; 
+    --dark-color: #263238;      
+    --gray-color: #546E7A;     
+    --light-gray-color: #ECEFF1;
     --white-color: #FFFFFF;
-    --success-color: #4CAF50;   /* Verde sucesso mais vibrante */
-    --danger-color: #D32F2F;    /* Vermelho perigo mais moderno */
+    --success-color: #4CAF50;   
+    --danger-color: #D32F2F;    
 
     --body-font: 'Inter', sans-serif;
-    --border-radius: 12px; /* Bordas um pouco mais arredondadas */
+    --border-radius: 12px;
     --shadow-soft: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
     --shadow-hover: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
 }

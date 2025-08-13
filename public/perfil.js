@@ -1,4 +1,4 @@
-// perfil.js - VERSÃO FINAL COM LÓGICA DE FAVORITOS CORRIGIDA
+// perfil.js - VERSÃO FINAL E CORRIGIDA
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- SELEÇÃO DE ELEMENTOS GLOBAIS ---
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('reviewForm');
     const reviewLoginPrompt = document.getElementById('review-login-prompt');
     const favoriteWrapper = document.getElementById('favorite-icon-wrapper');
-    
+
     // --- LÓGICA PRINCIPAL ---
     const urlParams = new URLSearchParams(window.location.search);
     const professionalId = urlParams.get('id');
@@ -17,51 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Inicia as buscas de dados da página
-    fetchProfessionalData(professionalId);
-    fetchReviews(professionalId);
-    fetchPublicPortfolio(professionalId);
-    checkClientLoginStatus();
-
     // --- FUNÇÃO PARA MOSTRAR NOTIFICAÇÃO "TOAST" ---
     function showToast(message, type = 'success') {
         const toast = document.createElement('div');
         toast.className = `toast-notification ${type}`;
         toast.innerHTML = message;
         document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.classList.add('show');
-        }, 100);
+        setTimeout(() => { toast.classList.add('show'); }, 100);
         setTimeout(() => {
             toast.classList.remove('show');
-            setTimeout(() => {
-                toast.remove();
-            }, 500);
+            setTimeout(() => { toast.remove(); }, 500);
         }, 5000);
     }
 
     // --- FUNÇÃO PARA VERIFICAR O LOGIN DO CLIENTE E CONTROLAR A INTERFACE ---
-    function checkClientLoginStatus() {
+    function checkClientLoginAndSetupPage() {
         fetch('http://localhost:3000/api/clients/me')
-            .then(response => response.ok ? response.json() : null)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Não é um cliente logado');
+            })
             .then(result => {
                 if (result && result.success) {
-                    // SUCESSO: É um cliente logado
                     if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'none';
                     if (reviewForm) reviewForm.style.display = 'block';
-                    // CORREÇÃO: Mostra o ícone de favorito
-                    if (favoriteWrapper) favoriteWrapper.style.display = 'block';
-                    checkFavoriteStatus(professionalId);
-                } else {
-                    // Não é um cliente logado
-                    if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'block';
-                    if (reviewForm) reviewForm.style.display = 'none';
-                    // CORREÇÃO: Garante que o ícone de favorito fique escondido
-                    if (favoriteWrapper) favoriteWrapper.style.display = 'none';
+                    if (favoriteWrapper) {
+                        favoriteWrapper.style.display = 'block';
+                        checkFavoriteStatus(professionalId);
+                    }
                 }
             })
-            .catch(err => {
-                // Em caso de erro de rede, assume que não está logado
+            .catch(() => {
                 if (reviewLoginPrompt) reviewLoginPrompt.style.display = 'block';
                 if (reviewForm) reviewForm.style.display = 'none';
                 if (favoriteWrapper) favoriteWrapper.style.display = 'none';
@@ -82,9 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     isCurrentlyFavorite = false;
                     favoriteWrapper.classList.remove('is-favorite');
                 }
-            });
+            })
+            .catch(err => console.error("Erro ao verificar o estado de favorito:", err));
     }
-    
+
     if (favoriteWrapper) {
         favoriteWrapper.addEventListener('click', () => {
             const method = isCurrentlyFavorite ? 'DELETE' : 'POST';
@@ -150,10 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const portfolioSection = document.querySelector('.portfolio-section');
                 if(result.success && result.data.length > 0) {
                     if (portfolioSection) portfolioSection.style.display = 'block';
-                    gallery.innerHTML = ''; // Limpa antes de adicionar
+                    gallery.innerHTML = '';
                     result.data.forEach(image => {
                         const imgElement = document.createElement('img');
-                        imgElement.src = `http://localhost:3000/${image.image_path}`;
+                        imgElement.src = `http://localhost:3000/${image.image_path.replace(/\\/g, '/')}`;
                         imgElement.alt = image.caption || 'Foto do portfólio';
                         gallery.appendChild(imgElement);
                     });
@@ -196,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         profileContent.style.display = 'grid';
 
         document.title = `${prof.fullName} - Resolve Pra Mim`;
-        document.getElementById('profile-pic').src = prof.profilePic ? `http://localhost:3000/${prof.profilePic}` : 'https://via.placeholder.com/150';
+        document.getElementById('profile-pic').src = prof.profilePic ? `http://localhost:3000/${prof.profilePic.replace(/\\/g, '/')}` : 'https://via.placeholder.com/150';
         document.getElementById('profile-pic').alt = `Foto de ${prof.fullName}`;
         document.getElementById('profile-name').textContent = prof.fullName;
         document.getElementById('profile-service-type').textContent = prof.serviceType;
@@ -271,5 +260,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitButton.textContent = 'Enviar Avaliação';
             });
         });
+    }
+
+    // --- INICIA A EXECUÇÃO DAS TAREFAS DA PÁGINA ---
+    if (professionalId) {
+        fetchProfessionalData(professionalId);
+        fetchReviews(professionalId);
+        fetchPublicPortfolio(professionalId);
+        checkLoginAndFavorites(); // A função principal que controla a visibilidade dos elementos
     }
 });

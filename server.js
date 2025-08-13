@@ -1,5 +1,3 @@
-// server.js - VERSÃO COM LOGIN DE ADMIN SEPARADO
-
 // --- 1. IMPORTAÇÕES ---
 require('dotenv').config();
 const express = require('express');
@@ -237,7 +235,7 @@ app.get('/api/professionals/me', checkProfessionalAuth, (req, res) => {
 app.get('/api/clients/me', checkClientAuth, (req, res) => {
     try {
         const clientId = req.session.clientId;
-        const clientName = req.session.clientName;
+        const clientName = req.session.clientName; 
         res.status(200).json({ success: true, data: { id: clientId, name: clientName } });
     } catch (err) {
         res.status(500).json({ success: false, message: 'Erro interno no servidor.' });
@@ -476,7 +474,6 @@ app.get('/admin/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) return res.redirect('/admin.html');
         res.clearCookie('connect.sid');
-        // CORREÇÃO 2: A Rota de Logout do Admin agora redireciona para a página correta
         res.redirect('/login-admin.html');
     });
 });
