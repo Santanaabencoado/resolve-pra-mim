@@ -270,3 +270,4 @@ document.addEventListener('DOMContentLoaded', () => {
         checkLoginAndFavorites(); // A função principal que controla a visibilidade dos elementos
     }
 });
+
